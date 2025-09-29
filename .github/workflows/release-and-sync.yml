@@ -91,7 +91,7 @@ jobs:
                 const prs = await github.rest.pulls.list({ owner, repo, state: 'open', base: baseBranch, per_page: 100 });
                 let existing = prs.data.find(pr => pr.head && pr.head.ref === 'main');
                 if (!existing) {
-                  core.info(`Creating PR from main to ${baseBranch} (no auto-merge)...`);
+                  core.info(`Creating PR from main to ${baseBranch}...`);
                   const pr = await github.rest.pulls.create({
                     owner,
                     repo,
@@ -104,6 +104,35 @@ jobs:
                   core.info(`PR #${existing.number} created for ${baseBranch}`);
                 } else {
                   core.info(`Existing PR #${existing.number} already open for ${baseBranch}`);
+                }
+
+                try {
+                  const prDetails = await github.rest.pulls.get({ owner, repo, pull_number: existing.number });
+                  if (prDetails.data.merged) {
+                    core.info(`PR #${existing.number} is already merged.`);
+                    continue;
+                  }
+
+                  core.info(`Attempting to merge PR #${existing.number} into ${baseBranch}...`);
+                  const mergeResult = await github.rest.pulls.merge({
+                    owner,
+                    repo,
+                    pull_number: existing.number,
+                    merge_method: 'merge'
+                  });
+                  if (mergeResult.merged) {
+                    core.info(`PR #${existing.number} merged successfully with commit ${mergeResult.sha}.`);
+                  } else {
+                    core.warning(`PR #${existing.number} merge attempt returned status=${mergeResult.status}.`);
+                  }
+                } catch (mergeErr) {
+                  if (mergeErr.status === 403) {
+                    core.warning('403: Actions token cannot merge PRs. Provide PAT_PR secret or enable repo settings (read & write + allow Actions to create/approve PRs).');
+                  } else if (mergeErr.status === 405 || mergeErr.status === 409) {
+                    core.warning(`PR #${existing.number} could not be merged automatically (status ${mergeErr.status}). Manual review may be required.`);
+                  } else {
+                    core.warning(`Unexpected merge error for PR #${existing.number}: ${mergeErr.message}`);
+                  }
                 }
               } catch (err) {
                 if (err.status === 403) {
