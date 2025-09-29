@@ -18,7 +18,7 @@ jobs:
   release-and-sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Check commit message for date
+      - name: Parse commit message for date
         id: parse
         shell: bash
         run: |
@@ -37,8 +37,8 @@ jobs:
         if: steps.parse.outputs.skip == 'true'
         run: echo "No dated commit. Job ends."
 
-      - name: Create release
-        if: ${{ steps.parse.outputs.skip != 'true' }}
+      - name: Create dated release (tag = date)
+        if: steps.parse.outputs.skip != 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -65,18 +65,13 @@ jobs:
               core.info(`Release created: ${created.data.html_url}`);
             }
 
-      # Prefer PAT for PR creation because some orgs/repos block PR creation by GITHUB_TOKEN
-      - name: Open/merge PRs
-        if: ${{ steps.parse.outputs.skip != 'true' }}
-      continue-on-error: true
+      - name: Open PRs to other branches
+        if: steps.parse.outputs.skip != 'true'
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.PAT_PR != '' && secrets.PAT_PR || github.token }}
           script: |
-            // Using default GITHUB_TOKEN
-            core.info('If you see 403 (Actions not permitted to create/approve PRs), enable in repo settings:');
-            core.info('- Actions > General > Workflow permissions: Read and write');
-            core.info('- Allow GitHub Actions to create and approve pull requests');
-
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const date = `${{ steps.parse.outputs.date }}`;
@@ -85,6 +80,11 @@ jobs:
             const branchesResp = await github.rest.repos.listBranches({ owner, repo, per_page: 100 });
             const branches = branchesResp.data.map(b => b.name).filter(n => n !== 'main');
             core.info(`Target branches: ${branches.join(', ') || '(none)'}`);
+
+            if (branches.length === 0) {
+              core.info('No additional branches found. Nothing to sync.');
+              return;
+            }
 
             for (const baseBranch of branches) {
               try {
@@ -103,118 +103,13 @@ jobs:
                   existing = pr.data;
                   core.info(`PR #${existing.number} created for ${baseBranch}`);
                 } else {
-                  core.info(`Existing PR #${existing.number} found for ${baseBranch}`);
+                  core.info(`Existing PR #${existing.number} already open for ${baseBranch}`);
                 }
-
               } catch (err) {
-                core.warning(`Failed PR operation for ${baseBranch}: ${err.message}`);
-              name: Release and sync branches on dated commit
-
-              on:
-                push:
-                  branches:
-                    - main
-                workflow_dispatch:
-
-              permissions:
-                contents: write
-                pull-requests: write
-
-              concurrency:
-                group: release-and-sync-main
-                cancel-in-progress: false
-
-              jobs:
-                release-and-sync:
-                  runs-on: ubuntu-latest
-                  steps:
-                    - name: Parse commit message for date
-                      id: parse
-                      shell: bash
-                      run: |
-                        msg='${{ github.event.head_commit.message }}'
-                        echo "Commit message: $msg"
-                        if [[ "$msg" =~ ([0-9]{2}\.[0-9]{2}\.[0-9]{4}) ]]; then
-                          date="${BASH_REMATCH[1]}"
-                          echo "Found date: $date"
-                          echo "date=$date" >> "$GITHUB_OUTPUT"
-                        else
-                          echo "No date pattern (dd.MM.yyyy) found in commit message. Skipping."
-                          echo "skip=true" >> "$GITHUB_OUTPUT"
-                        fi
-
-                    - name: Stop if no date present
-                      if: steps.parse.outputs.skip == 'true'
-                      run: echo "No dated commit. Job ends."
-
-                    - name: Create dated release (tag = date)
-                      if: steps.parse.outputs.skip != 'true'
-                      uses: actions/github-script@v7
-                      with:
-                        script: |
-                          const owner = context.repo.owner;
-                          const repo = context.repo.repo;
-                          const date = `${{ steps.parse.outputs.date }}`;
-                          const sha = context.sha;
-                          core.info(`Preparing release for date: ${date} at sha ${sha}`);
-                          try {
-                            const existing = await github.rest.repos.getReleaseByTag({ owner, repo, tag: date });
-                            core.info(`Release already exists: ${existing.data.html_url}`);
-                          } catch (e) {
-                            core.info('Release not found, creating...');
-                            const created = await github.rest.repos.createRelease({
-                              owner,
-                              repo,
-                              tag_name: date,
-                              target_commitish: 'main',
-                              name: `Release ${date}`,
-                              body: `Automated release for ${date}.\nCommit: ${sha}`,
-                              draft: false,
-                              prerelease: false
-                            });
-                            core.info(`Release created: ${created.data.html_url}`);
-                          }
-
-                    - name: Open PRs (use PAT if available)
-                      if: steps.parse.outputs.skip != 'true'
-                      uses: actions/github-script@v7
-                      with:
-                        # Prefer PAT_PR if defined; otherwise fall back to default GITHUB_TOKEN
-                        github-token: ${{ secrets.PAT_PR || github.token }}
-                        script: |
-                          const owner = context.repo.owner;
-                          const repo = context.repo.repo;
-                          const date = `${{ steps.parse.outputs.date }}`;
-                          const sha = context.sha;
-
-                          const branchesResp = await github.rest.repos.listBranches({ owner, repo, per_page: 100 });
-                          const branches = branchesResp.data.map(b => b.name).filter(n => n !== 'main');
-                          core.info(`Target branches: ${branches.join(', ') || '(none)'}`);
-
-                          for (const baseBranch of branches) {
-                            try {
-                              const prs = await github.rest.pulls.list({ owner, repo, state: 'open', base: baseBranch, per_page: 100 });
-                              let existing = prs.data.find(pr => pr.head && pr.head.ref === 'main');
-                              if (!existing) {
-                                core.info(`Creating PR from main to ${baseBranch} (no auto-merge)...`);
-                                const pr = await github.rest.pulls.create({
-                                  owner,
-                                  repo,
-                                  title: `Sync main -> ${baseBranch} (${date})`,
-                                  head: 'main',
-                                  base: baseBranch,
-                                  body: `Automated sync from main on ${date}.\nCommit: ${sha}`
-                                });
-                                existing = pr.data;
-                                core.info(`PR #${existing.number} created for ${baseBranch}`);
-                              } else {
-                                core.info(`Existing PR #${existing.number} found for ${baseBranch}`);
-                              }
-                            } catch (err) {
-                              if (err.status === 403) {
-                                core.warning('403: Actions token cannot create PRs. Provide PAT_PR secret or enable repo settings: Read & write + Allow Actions to create/approve PRs.');
-                              } else {
-                                core.warning(`Failed PR operation for ${baseBranch}: ${err.message}`);
-                              }
-                            }
-                          }
+                if (err.status === 403) {
+                  core.warning('403: Actions token cannot create PRs. Provide PAT_PR secret or enable repo settings (read & write + allow Actions to create/approve PRs).');
+                } else {
+                  core.warning(`Failed PR operation for ${baseBranch}: ${err.message}`);
+                }
+              }
+            }
