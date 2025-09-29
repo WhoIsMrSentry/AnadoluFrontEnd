@@ -65,12 +65,11 @@ jobs:
               core.info(`Release created: ${created.data.html_url}`);
             }
 
-      - name: Open PRs to other branches
+      - name: Open PRs and attempt merge
         if: steps.parse.outputs.skip != 'true'
         continue-on-error: true
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.PAT_PR != '' && secrets.PAT_PR || github.token }}
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
@@ -85,6 +84,8 @@ jobs:
               core.info('No additional branches found. Nothing to sync.');
               return;
             }
+
+            core.info('Using default GITHUB_TOKEN. If you encounter 403 errors, ensure workflow permissions allow PR creation/merge, or supply a PAT via repository secret and update this workflow to use it.');
 
             for (const baseBranch of branches) {
               try {
@@ -127,7 +128,7 @@ jobs:
                   }
                 } catch (mergeErr) {
                   if (mergeErr.status === 403) {
-                    core.warning('403: Actions token cannot merge PRs. Provide PAT_PR secret or enable repo settings (read & write + allow Actions to create/approve PRs).');
+                    core.warning('403: Token cannot merge PRs. Provide a PAT with repo scope (e.g., store as PAT_PR) or adjust repository/branch protection settings.');
                   } else if (mergeErr.status === 405 || mergeErr.status === 409) {
                     core.warning(`PR #${existing.number} could not be merged automatically (status ${mergeErr.status}). Manual review may be required.`);
                   } else {
@@ -136,7 +137,7 @@ jobs:
                 }
               } catch (err) {
                 if (err.status === 403) {
-                  core.warning('403: Actions token cannot create PRs. Provide PAT_PR secret or enable repo settings (read & write + allow Actions to create/approve PRs).');
+                  core.warning('403: Token cannot create PRs. Ensure workflow permissions (read/write + allow Actions to create/approve PRs) or use a personal access token.');
                 } else {
                   core.warning(`Failed PR operation for ${baseBranch}: ${err.message}`);
                 }
