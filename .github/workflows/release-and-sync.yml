@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -36,8 +37,8 @@ jobs:
         if: steps.parse.outputs.skip == 'true'
         run: echo "No dated commit. Job ends."
 
-      - name: Create release and open/merge PRs
-        if: steps.parse.outputs.skip != 'true'
+      - name: Create release
+        if: ${{ steps.parse.outputs.skip != 'true' }}
         uses: actions/github-script@v7
         with:
           script: |
@@ -45,17 +46,13 @@ jobs:
             const repo = context.repo.repo;
             const date = `${{ steps.parse.outputs.date }}`;
             const sha = context.sha;
-
             core.info(`Preparing release for date: ${date} at sha ${sha}`);
-
-            // Try to get release by tag, otherwise create it (will also create the tag)
-            let release;
             try {
-              release = await github.rest.repos.getReleaseByTag({ owner, repo, tag: date });
-              core.info(`Release already exists: ${release.data.html_url}`);
+              const existing = await github.rest.repos.getReleaseByTag({ owner, repo, tag: date });
+              core.info(`Release already exists: ${existing.data.html_url}`);
             } catch (e) {
               core.info('Release not found, creating...');
-              release = await github.rest.repos.createRelease({
+              const created = await github.rest.repos.createRelease({
                 owner,
                 repo,
                 tag_name: date,
@@ -65,41 +62,61 @@ jobs:
                 draft: false,
                 prerelease: false
               });
-              core.info(`Release created: ${release.data.html_url}`);
+              core.info(`Release created: ${created.data.html_url}`);
             }
 
-            // List branches and filter out main
+      # Prefer PAT for PR creation because some orgs/repos block PR creation by GITHUB_TOKEN
+      - name: Open/merge PRs
+        if: ${{ steps.parse.outputs.skip != 'true' }}
+        continue-on-error: true
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Using default GITHUB_TOKEN
+            core.info('If you see 403 (Actions not permitted to create/approve PRs), enable in repo settings:');
+            core.info('- Actions > General > Workflow permissions: Read and write');
+            core.info('- Allow GitHub Actions to create and approve pull requests');
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const date = `${{ steps.parse.outputs.date }}`;
+            const sha = context.sha;
+
             const branchesResp = await github.rest.repos.listBranches({ owner, repo, per_page: 100 });
             const branches = branchesResp.data.map(b => b.name).filter(n => n !== 'main');
             core.info(`Target branches: ${branches.join(', ') || '(none)'}`);
 
             for (const baseBranch of branches) {
-              // Check if there is already an open PR from main to this branch
-              const prs = await github.rest.pulls.list({ owner, repo, state: 'open', base: baseBranch, per_page: 100 });
-              let existing = prs.data.find(pr => pr.head && pr.head.ref === 'main');
-              if (!existing) {
-                core.info(`Creating PR from main to ${baseBranch}...`);
-                const pr = await github.rest.pulls.create({
-                  owner,
-                  repo,
-                  title: `Sync main -> ${baseBranch} (${date})`,
-                  head: 'main',
-                  base: baseBranch,
-                  body: `Automated sync from main on ${date}.\nCommit: ${sha}`
-                });
-                existing = pr.data;
-                core.info(`PR #${existing.number} created for ${baseBranch}`);
-              } else {
-                core.info(`Existing PR #${existing.number} found for ${baseBranch}`);
-              }
-
-              // Try to merge the PR immediately (will fail if there are conflicts or protections)
               try {
-                const merge = await github.rest.pulls.merge({ owner, repo, pull_number: existing.number, merge_method: 'merge' });
-                core.info(`PR #${existing.number} merged into ${baseBranch}: ${merge.data.merged}`);
+                const prs = await github.rest.pulls.list({ owner, repo, state: 'open', base: baseBranch, per_page: 100 });
+                let existing = prs.data.find(pr => pr.head && pr.head.ref === 'main');
+                if (!existing) {
+                  core.info(`Creating PR from main to ${baseBranch}...`);
+                  const pr = await github.rest.pulls.create({
+                    owner,
+                    repo,
+                    title: `Sync main -> ${baseBranch} (${date})`,
+                    head: 'main',
+                    base: baseBranch,
+                    body: `Automated sync from main on ${date}.\nCommit: ${sha}`
+                  });
+                  existing = pr.data;
+                  core.info(`PR #${existing.number} created for ${baseBranch}`);
+                } else {
+                  core.info(`Existing PR #${existing.number} found for ${baseBranch}`);
+                }
+
+                try {
+                  const merge = await github.rest.pulls.merge({ owner, repo, pull_number: existing.number, merge_method: 'merge' });
+                  core.info(`PR #${existing.number} merged into ${baseBranch}: ${merge.data.merged}`);
+                } catch (err) {
+                  core.warning(`Auto-merge failed for ${baseBranch}: ${err.message}. PR left open for manual review.`);
+                }
               } catch (err) {
-                core.warning(`Auto-merge failed for ${baseBranch}: ${err.message}. PR left open for manual review.`);
+                if (err.status === 403) {
+                  core.warning('403: GitHub Actions is not permitted to create or approve PRs. This job will exit successfully, leaving PR creation to a user or a PAT-based workflow.');
+                } else {
+                  core.warning(`Failed PR operation for ${baseBranch}: ${err.message}`);
+                }
               }
             }
-
-          result-encoding: string
