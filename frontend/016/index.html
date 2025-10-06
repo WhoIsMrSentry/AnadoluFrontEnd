@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+  Amaç: Basit bir tablo sayfası. Tablo yapısını (thead, tbody, tfoot) ve
+  hücre birleştirmeyi (colspan) gösterir. Junior notları satır içi açıklamalarda.
+
+  İpucu:
+  - Stil vermek için border/width gibi HTML öznitelikleri yerine genelde CSS tercih edilir.
+  - Sütun başlıkları için <th> etiketi daha uygundur; burada <td> kullanılmış ama çalışır.
+-->
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sınıf Tablosu</title>
+</head>
+
+<body>
+    <!-- Tablo: border ve width burada HTML özniteliği ile verilmiş. Gerçekte CSS ile yapılması önerilir. -->
+    <table border="1" width="100%">
+        <thead>
+            <!-- Tablo başlığı (sütun adları). Normalde <th> kullanılır. -->
+            <tr>
+                <td>İsim</td>
+                <td>Soyisim</td>
+                <td>Yaş</td>
+                <td>Şehir</td>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Veri satırları (öğrenci bilgileri) -->
+            <tr>
+                <td>Emir</td>
+                <td>Hamurcu</td>
+                <td>19</td>
+                <td>Hatay</td>
+            </tr>
+
+            <tr>
+                <td>Ahmet</td>
+                <td>Avcıoğlu</td>
+                <td>25</td>
+                <td>Eskişehir</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <!-- Tablo alt bilgisi: Özet/kümülatif bilgiler burada verilir. -->
+            <tr>
+                <!-- colspan="2": Bu hücre 2 sütunu yatayda birleştirir. -->
+                <td colspan="2">Sınıf Mevcudu</td>
+                <!-- Sağ tarafta da 2 sütunu birleştiriyoruz. -->
+                <td colspan="2">2</td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+</body>
+
+</html>

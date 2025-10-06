@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Okul Kayıt Formu</title>
+</head>
+<body>
+    <!-- Başlık: align="center" eski bir HTML özniteliğidir; modern kullanımda CSS ile merkezlenir. -->
+    <h1 align="center">
+        Okul Kayıt Formu
+    </h1>
+
+    <center>
+    <!--
+      form: action boşsa aynı sayfaya gönderir; method="post" verileri adres çubuğuna yazmadan yollar.
+      align="center" yine eski bir öznitelik; CSS ile hizalama tercih edilir.
+    -->
+    <form action="" method="post" align="center">
+        <h3>Öğrenci Bilgileri</h3>
+        
+        <!-- label-for ile input-id aynı olmalı; tıklanınca uygun input odaklanır. -->
+        <label for="student_name">Öğrenci Adı:</label>
+        <input type="text" name="student_name" id="student_name"> <!-- type="text": Serbest metin girişi. -->
+        <br><br>
+
+        <label for="tcno">TC kimlik no</label>
+        <input type="number" name="tcno" id="tcno"> <!-- type="number": Sadece sayı kabul eder; min/max/step eklenebilir. -->
+        <br><br>
+
+        <label for="telno">Telefon No</label>
+        <input type="number" name="telno" id="telno" placeholder="Telefon Numarası"> <!-- Tel için genelde type="tel" tercih edilir. -->
+        <br><br>
+
+        <label for="student_age">Yaş:</label>
+        <input type="number" name="student_age" id="student_age"> <!-- Yaş için min/max ile sınır konulabilir. -->
+        <br><br>
+
+        <label for="student_birthdate">Doğum Tarihi:</label>
+        <input type="date" name="student_birthdate" id="student_birthdate"> <!-- Takvim seçici açar. -->
+        <br><br>
+
+        <label for="student_gender">Cinsiyet:</label>
+        <!-- select-option: Açılır listeden tek seçim. value gönderilen değerdir, görünen metin etikettir. -->
+        <select name="student_gender" id="student_gender">
+            <option value="">Seçiniz</option>
+            <option value="Erkek">Erkek</option>
+            <option value="Kadın">Kadın</option>
+            <option value="Diğer">Diğer</option>
+        </select>
+        <br><br>
+
+        <label for="student_class">Sınıf:</label>
+        <!-- 1–12 arası sınıf seçenekleri. İsterseniz required ekleyerek zorunlu yapabilirsiniz. -->
+        <select name="student_class" id="student_class">
+            <option value="">Seçiniz</option>
+            <option value="1">1. Sınıf</option>
+            <option value="2">2. Sınıf</option>
+            <option value="3">3. Sınıf</option>
+            <option value="4">4. Sınıf</option>
+            <option value="5">5. Sınıf</option>
+            <option value="6">6. Sınıf</option>
+            <option value="7">7. Sınıf</option>
+            <option value="8">8. Sınıf</option>
+            <option value="9">9. Sınıf</option>
+            <option value="10">10. Sınıf</option>
+            <option value="11">11. Sınıf</option>
+            <option value="12">12. Sınıf</option>
+        </select>
+        <br><br>
+
+        <label for="student_interests">İlgi Alanları:</label>
+        <input type="text" name="student_interests" id="student_interests" placeholder="İlgi Alanlarınızı yazınız"> <!-- Ör: Spor, Müzik, Yazılım... -->
+        <br><br>
+
+        <label for="student_email">E-posta:</label>
+        <input type="email" name="student_email" id="student_email"> <!-- type="email": Basit e-posta doğrulaması yapar. -->
+        <br><br>
+
+        <label for="student_description">Açıklama:</label>
+        <textarea name="student_description" id="student_description" rows="3" cols="30" placeholder="Ek açıklama"></textarea> <!-- Çok satırlı metin alanı. -->
+        <br><br>
+
+        <!-- Checkbox Grup -->
+        <h3>Hangi Dersleri Almak İstersiniz? (Çoklu Seçim)</h3> <!-- Checkbox: Birden fazla ders seçilebilir. -->
+        
+        <input type="checkbox" name="course_math" id="course_math" value="Matematik">
+        <label for="course_math">Matematik</label>
+        <br>
+        
+        <input type="checkbox" name="course_science" id="course_science" value="Fen Bilimleri">
+        <label for="course_science">Fen Bilimleri</label>
+        <br>
+        
+        <input type="checkbox" name="course_history" id="course_history" value="Tarih">
+        <label for="course_history">Tarih</label>
+        <br>
+        
+        <input type="checkbox" name="course_art" id="course_art" value="Sanat">
+        <label for="course_art">Sanat</label>
+        <br><br>
+
+        <!-- type="submit": Formu gönderir. Tarayıcı validasyonlarını (ör: type="email") otomatik uygular. -->
+        <button type="submit">Gönder</button>
+    </form>
+
+    </center>
+    
+</body>
+</html>

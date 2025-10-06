@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Tasarım Giriş Formu</title>
+</head>
+
+<body>
+    <!-- NOT: <center> etiketi eski (deprecated). Modern uygulamada CSS ile merkezleme yapılır. -->
+    <center>
+        <!-- Başlık Bölümü -->
+        <div>
+            Merhaba <span>Dünya</span> <b>Nasılsın</b>
+            <br><br>
+            WebTasarım
+        </div>
+        <br><br>
+
+        <!-- Açıklama Bölümü -->
+        <div>
+            Bu site, web tasarım ve geliştirme konularında eğitim materyalleri sunmak amacıyla hazırlanmıştır.
+            Kullanıcılar, temel HTML formlarından başlayarak çeşitli web teknolojileri hakkında bilgi edinebilirler.
+        </div>
+
+        <h1>Giriş Formu</h1>
+
+        <!--
+          form: action boş bırakılırsa aynı sayfaya gönderir. method="post" verileri gövdeye yazar.
+          label-for ve input-id eşleştirmesi erişilebilirlik için önemlidir (etikete tıklayınca input fokus olur).
+        -->
+        <form action="" method="post">
+            <!-- Temel Giriş Bilgileri -->
+            <h3>Kullanıcı Bilgileri</h3>
+            
+            <label for="username">Kullanıcı adı:</label>
+            <input type="text" name="username" id="username">
+            <br><br>
+
+            <label for="email">E-posta:</label>
+            <input type="email" name="email" id="email">
+            <br><br>
+
+            <label for="password">Şifre:</label>
+            <input type="password" name="password" id="password">
+            <br><br>
+
+            <button type="submit">Giriş Yap</button>
+
+            <br><br>
+            <!-- Radio Button Grup -->
+            <h3>Hangi Takımlısın (Tek Seçim)</h3>
+            <!-- Radio: Aynı name'e sahip butonlardan sadece BİRİ seçilebilir. -->
+            
+            <input type="radio" name="team_radio" id="team1_radio" value="Fenerbahçe">
+            <label for="team1_radio">Fenerbahçe</label>
+            <br>
+            
+            <input type="radio" name="team_radio" id="team2_radio" value="Galatasaray">
+            <label for="team2_radio">Galatasaray</label>
+            <br>
+            
+            <input type="radio" name="team_radio" id="team3_radio" value="Beşiktaş">
+            <label for="team3_radio">Beşiktaş</label>
+
+            <br><br>
+            <!-- Checkbox Grup 1 -->
+            <h3>Hangi Takımlısın (Çoklu Seçim)</h3>
+            <!-- Checkbox: Birden fazla kutu aynı anda seçilebilir. -->
+            
+            <input type="checkbox" name="team_checkbox1" id="team1_checkbox" value="Fenerbahçe">
+            <label for="team1_checkbox">Fenerbahçe</label>
+            <br>
+            
+            <input type="checkbox" name="team_checkbox2" id="team2_checkbox" value="Galatasaray">
+            <label for="team2_checkbox">Galatasaray</label>
+            <br>
+            
+            <input type="checkbox" name="team_checkbox3" id="team3_checkbox" value="Beşiktaş">
+            <label for="team3_checkbox">Beşiktaş</label>
+
+            <br><br>
+            <!-- Checkbox Grup 2 -->
+            <h3>Hangi Dilleri Biliyorsunuz?</h3>
+            
+            <input type="checkbox" name="language_html" id="lang_html" value="HTML">
+            <label for="lang_html">HTML</label>
+            <br>
+            
+            <input type="checkbox" name="language_css" id="lang_css" value="CSS">
+            <label for="lang_css">CSS</label>
+            <br>
+            
+            <input type="checkbox" name="language_js" id="lang_js" value="JavaScript">
+            <label for="lang_js">JavaScript</label>
+            <br>
+            
+            <input type="checkbox" name="language_python" id="lang_python" value="Python">
+            <label for="lang_python">Python</label>
+            <br>
+            
+            <input type="checkbox" name="language_java" id="lang_java" value="Java">
+            <label for="lang_java">Java</label>
+
+            <br><br>
+
+            <!-- Select Dropdown -->
+            <h3>Takım Seçimi (Dropdown)</h3>
+            
+            <label for="teams">Hangi Takımlısın:</label>
+            <!-- size="4": Liste kutusunu 4 satır yüksekliğinde gösterir (çoklu seçim için multiple kullanılabilir). -->
+            <select name="teams" id="teams" size="4">
+                <option value="Seciniz">Seçiniz</option>
+                <option value="Fb">Fenerbahçe</option>
+                <option value="Gs">Galatasaray</option>
+                <option value="Bjk">Beşiktaş</option>
+            </select>
+
+            <br><br>
+
+            <!-- Textarea -->
+            <h3>Yorumlar</h3>
+            
+            <label for="comments">Yorumlarınız:</label>
+            <br>
+            <!-- white-space:pre-line; yeni satırları korur. resize:vertical; sadece dikey boyutlandırmaya izin verir. -->
+            <textarea name="comments" id="comments" cols="30" rows="10" 
+                      style="resize:vertical; white-space:pre-line;" 
+                      placeholder="Bir şeyler yazınız...">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit at excepturi, voluptatem ipsum ducimus pariatur aliquid fugiat odio nisi animi, id laboriosam eaque cumque atque qui nesciunt totam praesentium architecto!</textarea>
+
+            <br><br>
+            <!-- Özel Input Tipleri -->
+            <h3>Kişisel Bilgiler</h3>
+            
+            <label for="birthdate">Doğum Tarihi:</label>
+            <!-- type="date": Tarayıcı tarih seçici açar. placeholder bazı tarayıcılarda görünmeyebilir. -->
+            <input type="date" name="birthdate" id="birthdate" placeholder="GG/AA/YYYY">
+            <br><br>
+
+            <label for="favcolor">Favori Renk:</label>
+            <!-- type="color": Renk seçici açar; değeri #RRGGBB formatında gönderir. -->
+            <input type="color" name="favcolor" id="favcolor">
+            <br><br>
+
+            <label for="website">Web Sitesi:</label>
+            <!-- type="url": Basit URL doğrulaması yapar (http/https beklentisi). -->
+            <input type="url" name="website" id="website" placeholder="https://example.com">
+            <br><br>
+
+            <label for="phonenumber">Telefon Numarası:</label>
+            <!-- type="tel": Serbest metin; pattern ile doğrulama eklenebilir. -->
+            <input type="tel" name="phonenumber" id="phonenumber" placeholder="+90 555 555 55 55">
+            <br><br>
+
+            <label for="age">Yaş:</label>
+            <!-- type="number": min/max ile sınırlar; step ile artış miktarı belirlenebilir. -->
+            <input type="number" name="age" id="age" min="0" max="120" placeholder="Yaşınızı giriniz">
+            <br><br>
+
+            <label for="datetime">Tarih ve Saat:</label>
+            <!-- type="datetime-local": Yerel zaman seçici açar. -->
+            <input type="datetime-local" name="datetime" id="datetime" placeholder="Tarih ve saat seçiniz">
+            <br><br>
+
+            <label for="search">Arama:</label>
+            <!-- type="search": Metin alanına ekstra temizleme butonu ekleyebilir (tarayıcıya bağlı). -->
+            <input type="search" name="search" id="search" placeholder="Arama yapınız">
+            <br><br>
+
+            <label for="fileupload">Dosya Yükle:</label>
+            <!-- type="file": accept="image/*" gibi kısıtlama eklenebilir; multiple ile çoklu seçim yapılabilir. -->
+            <input type="file" name="fileupload" id="fileupload">
+            <br><br>
+
+            <label for="volume">Ses Seviyesi:</label>
+            <!-- type="range": Kaydırma çubuğu; min/max ve value başlangıç değerini belirler. -->
+            <input type="range" name="volume" id="volume" min="0" max="100" value="50">
+            <br><br>
+
+            <label for="image">Görsel Submit:</label>
+            <!-- type="image": Tıklanınca formu gönderir; x,y koordinatları da gönderilir. -->
+            <input type="image" src="https://www.freeiconspng.com/uploads/html5-logo-png-21.png" 
+                   alt="Submit" width="48" height="48">
+        </form>
+    </center>
+</body>
+
+</html>
