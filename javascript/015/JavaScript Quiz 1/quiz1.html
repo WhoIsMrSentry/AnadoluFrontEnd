@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript Quiz 1</title>
+</head>
+
+<body>
+    <h1>JavaScript Uygulamalı Quiz</h1>
+    <p><strong>Ad Soyad:</strong> Emir Hamurcu</p>
+    <p><strong>Tarih:</strong> 09.10.2025</p>
+
+    <!-- ====================== -->
+    <h2>Soru 1 – while döngüsü ile sayıların toplamı</h2>
+    <p>
+        Kullanıcıdan <code>prompt()</code> ile bir sayı alın.
+        1’den bu sayıya kadar olan sayıların toplamını hesaplayıp ekrana yazdırın.
+        Döngü olarak <strong>while</strong> kullanın.
+    </p>
+
+    <pre>
+🧠 Örnek:
+Kullanıcı 5 girerse çıktı:
+Toplam: 15
+  </pre>
+
+    <script>
+        const sayı = Number(prompt("Bir sayı girin, 1'den o sayıya kadar olan sayıların toplamını vereceğim."));
+        let toplam = 0;
+        let i = 1;
+
+        while (i <= sayı) {
+            toplam += i;
+            i++;
+        }
+
+        console.log("Toplam: " + toplam);
+
+    </script>
+
+    <hr />
+
+    <!-- ====================== -->
+    <h2>Soru 2 – if ve mantıksal operatörlerle hava durumu kararı</h2>
+    <p>
+        Kullanıcıdan iki bilgi alın:
+    <ul>
+        <li>Hava sıcaklığı (<code>sicaklik</code>)</li>
+        <li>Yağmur var mı? (<code>yagmurVarMi</code> → "evet" veya "hayır")</li>
+    </ul>
+    Kurallar:
+    <ul>
+        <li>Eğer sıcaklık 25’ten büyük ve yağmur yoksa → "Dışarı çık, hava çok güzel!"</li>
+        <li>Eğer sıcaklık 15’ten küçük veya yağmur varsa → "Evde kal, dışarısı kötü."</li>
+        <li>Diğer durumlarda → "Karar senin :)"</li>
+    </ul>
+    </p>
+
+    <script>
+        const sicaklik = Number(prompt("Hava sıcaklığı kaç derece?"));
+        const yagmurVarMi = prompt("Yağmur var mı? (evet/hayır)").toLowerCase();
+
+        if (sicaklik > 25 && yagmurVarMi === "hayır") {
+            console.log("Dışarı çık, hava çok güzel!");
+        } else if (sicaklik < 15 || yagmurVarMi === "evet") {
+            console.log("Evde kal, dışarısı kötü.");
+        } else {
+            console.log("Karar senin :)");
+        }
+    </script>
+
+    <hr />
+
+    <!-- ====================== -->
+    <h2>Soru 3 – for + if + mantıksal operatörler (karmaşık)</h2>
+    <p>
+        Kullanıcıdan bir sayı (<code>n</code>) alın.
+        1’den n’e kadar olan sayıları kontrol edin:
+    </p>
+    <ul>
+        <li>Hem 3’e hem 5’e bölünüyorsa → FenerBahçe</li>
+        <li>Sadece 3’e bölünüyorsa → Fener</li>
+        <li>Sadece 5’e bölünüyorsa → Bahçe</li>
+        <li>Hiçbirine bölünmüyorsa → sayının kendisini yazdırın</li>
+    </ul>
+
+    <script>
+        const sayi = Number(prompt("Bir sayı girin"));
+        for (var n = 1; n <= sayi; n++) {
+            if (n % 3 === 0 && n % 5 === 0) {
+                console.log("FenerBahçe");
+            } else if (n % 3 === 0) {
+                console.log("Fener");
+            } else if (n % 5 === 0) {
+                console.log("Bahçe");
+            } else {
+                console.log(n);
+            }
+        }
+    </script>
+
+    <hr />
+    <p><em>Bitirdiğinizde dosyayı kaydedip sisteme yükleyiniz.</em></p>
+</body>
+
+</html>

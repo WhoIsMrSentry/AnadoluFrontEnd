@@ -1,0 +1,71 @@
+<!DOCTYPE html>                                             
+<html lang="en"> 
+<head>
+    <!-- Karakter kodlamasını UTF-8 olarak ayarlıyoruz -->
+    <meta charset="UTF-8">
+    <!-- Mobil cihazlarda responsive tasarım için viewport ayarı -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Sayfa başlığı - tarayıcı sekmesinde görünür -->
+    <title>My First Page</title>
+</head>
+<body>
+
+ <!-- Ana başlık - H1 etiketi sayfanın en önemli başlığıdır -->
+ <h1>Hello, World!</h1>
+ <!-- Alt başlıklar - H2'den H6'ya kadar boyut sırasına göre küçülür -->
+ <h2>Welcome to my website</h2>
+ <h3>Welcome to my website</h3>
+ <h4>Welcome to my website</h4>
+ <h5>Welcome to my website</h5>
+ <h6>Welcome to my website</h6>
+
+ <!-- lorem rasgele metin üretir p tag paragraftır -->
+ <!-- Paragraf etiketi - metin içeriği için kullanılır -->
+ <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius nam corrupti minus soluta animi a enim similique asperiores ipsum blanditiis aspernatur, nostrum reiciendis, architecto voluptatem. Asperiores molestiae illum sunt veniam!</p> 
+
+ <!-- Harici JavaScript dosyası bağlantısı -->
+ <!-- Bu satır yorum satırından çıkarıldığında js/settings.js dosyası çalıştırılır -->
+ <!-- Harici JS dosyaları kodun düzenli olması ve yeniden kullanım için tercih edilir -->
+ <script src="js/settings.js"></script>
+
+<!-- ==================== DAHİLİ vs HARİCİ JAVASCRIPT ==================== -->
+<!-- 
+📁 HARİCİ JAVASCRIPT (External):
+✅ Kod düzenli ve temiz kalır
+✅ Birden fazla HTML sayfasında kullanılabilir  
+✅ Tarayıcı tarafından önbelleğe alınır (hızlı)
+✅ Takım çalışmasında dosya yönetimi kolay
+
+💻 DAHİLİ JAVASCRIPT (Internal):
+✅ Küçük kod parçacıkları için pratik
+✅ Harici dosya yükleme gecikmesi yok
+❌ Kod karmaşıklığı artar
+❌ Yeniden kullanım zor
+-->
+
+<!-- Dahili JavaScript kodları -->
+<script>
+    // ==================== KONSOL MESAJLARI ====================
+    // Bu kodlar tarayıcının geliştirici araçlarında görünür
+    // F12 > Console sekmesini açarak görüntüleyebilirsiniz
+    
+    // Konsola normal mesaj yazdırma - genel bilgilendirme için
+    console.log("This is my first JavaScript code!");
+    
+    // Hata mesajı yazdırma (kırmızı renkte görünür) - hata durumları için
+    console.error("This is an error message");
+    
+    // Uyarı mesajı yazdırma (sarı renkte görünür) - dikkat çekmek için
+    console.warn("This is a warning message");
+    
+    // Bilgi mesajı yazdırma (mavi renkte görünür) - önemli bilgiler için
+    console.info("This is an info message");
+    
+    // Kullanıcıya popup uyarı mesajı gösterme - kullanıcı etkileşimi için
+    // ⚠️ Modern web sitelerinde alert() yerine modal pencereler tercih edilir
+    alert("This is an alert message");
+</script>
+
+
+</body>
+</html>
