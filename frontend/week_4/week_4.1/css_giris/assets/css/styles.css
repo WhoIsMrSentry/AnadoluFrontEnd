@@ -1,0 +1,37 @@
+/* Temel ve sade stiller */
+#firstPage {
+    color: #f00;
+    background: #ff0;
+}
+
+#secondPage {
+    color: #00f;
+    background: #ddd;
+}
+
+.paragraph {
+    background: #fafafa;
+    color: #111;
+}
+
+#intro {
+    color: #065f46;
+    background: #d1fae5;
+}
+
+
+.onlyClass {
+    background: #fff7ed; 
+    color: #92400e;
+}
+
+#onlyId {
+    background: #eef2ff;
+    color: #4c1d95;
+}
+
+
+#combined.onlyClass {
+    background: #ecfeff;
+    color: #065f46; 
+}

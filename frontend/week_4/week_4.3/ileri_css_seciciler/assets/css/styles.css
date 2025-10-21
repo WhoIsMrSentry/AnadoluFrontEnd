@@ -1,0 +1,17 @@
+ul > li > a {
+    color: darkgoldenrod;
+
+}
+
+.komsu+p {
+    background-color: green;
+}   
+
+.firstDiv {
+background-color: lightblue;
+background-image: url();
+background-repeat: no-repeat;
+background-position: right;
+width: 400px;
+height: 400px;
+}

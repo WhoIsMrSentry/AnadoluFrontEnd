@@ -1,0 +1,115 @@
+.background {
+    background-color: #0066cc;
+    color: white;
+}
+
+.font {
+    font-family: 'times new roman', times, serif;
+    font-size: 22px;
+
+}
+
+.font2 {
+
+    background-color: #28a745;
+    color: white;
+    font-size: 18px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+.title {
+    color: #dc3545;
+    background-color: #fff9c4;
+}
+
+.box {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    font-family: 'Courier New', Courier, monospace;
+    font: size 16px;
+
+}
+
+.p1 {
+    background-color: #ffe6f0;
+    color: #8e44ad;
+    font-size: 20px;
+}
+
+.p2 {
+    background-color: #ff9800;
+    color: white;
+    font-size: 20px;
+}
+
+.site {
+    background-color: #f8f9fa;
+    color: #343a40;
+    font-size: 28px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.description {
+    color: #343a40;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.h2 {
+    background-color:#17a2b8;
+    color:#fff;
+    font-size:24px;
+    margin:0;
+    padding:8px 12px;
+}
+
+.ul {
+    color:#495057;
+    font-size:16px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    list-style:disc;
+    padding-left:20px;margin:8px 0 0;   
+}
+
+.span1 {
+    background-color:#e74c3c;
+    color:#fff;
+    font-size:18px;
+}
+
+.span2 {
+    background-color:#27ae60;
+    color:#fff;
+    font-size:18px;
+}
+
+.span3 {
+    background-color:#3498db;
+    color:#fff;
+    font-size:18px;
+}
+
+.maintitle {
+    background-color:#34495e;
+    color: white;
+    font-size:32px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.downtitle {
+    background-color:#34495e;
+    color: bdc3c7;
+    font-size:20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.paragraph {
+    background-color:#34495e;
+    color: #1abc9c;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+
+
+}
+

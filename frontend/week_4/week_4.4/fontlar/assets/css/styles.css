@@ -1,0 +1,21 @@
+/* MR ROBOT fontunu projeye dahil etme */
+@font-face {
+    font-family: 'MR ROBOT';
+    src: url('../fonts/MR ROBOT.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    text-align: center;
+}
+
+/* Paragraflarda kullan */
+p {
+    font-family: 'MR ROBOT', Arial, Helvetica, sans-serif;
+    font-size: 48px;      /* temel boyut */
+    text-align: center;
+
+}
+isim-soyisim {
+    background-color: pink;
+    color: blue;
+}

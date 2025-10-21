@@ -1,0 +1,71 @@
+.border {
+    border-top-style : dashed;
+    border-bottom-style : dotted;
+    border-left-style : double;
+    border-right-style : groove;
+    border-width: 10px 10px 10px 10px;
+    border-color: #88001b;
+    color: aqua;
+    background-color: rgb(122, 165, 42);
+}
+
+.margin {
+    margin-top: 75px;
+    margin-bottom: 75px;
+    margin-left: 75px;
+    margin-right: 75px;
+}
+
+.padding {
+    padding-top: 75px;
+    padding-bottom: 75px;
+    padding-left: 75px;
+    padding-right: 75px;
+    /* padding: 75px 75px 75px 75px; bunlar aynı üst sağ alt sol diye gider */
+}
+
+.kalip {
+width: 200px;
+overflow: scroll;
+}
+
+#outline {
+    outline-style: dotted;
+    border-style: solid;
+    outline-color: red;
+    outline-width: 5px;
+    text-align: center;
+    text-decoration: underline;
+    text-transform: uppercase;
+    text-indent: 20px;
+    letter-spacing: 20px;
+    line-height: 20px;
+    word-spacing: 20px;
+    text-shadow: -5px -5px blue;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+/* Mr Robot font class */
+/* MR ROBOT fontunu projeye dahil etme */
+@font-face {
+    font-family: 'MR ROBOT';
+    src: url('../fonts/MR ROBOT.ttf') format('truetype');
+}
+
+.mr-robot {
+    font-family: 'MrRobot', 'Share Tech Mono', 'OCR A', 'OCR A Std', 'Roboto Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.link {
+    color: red;
+}
+
+a:link { 
+    color: red; 
+    text-decoration: none;
+}

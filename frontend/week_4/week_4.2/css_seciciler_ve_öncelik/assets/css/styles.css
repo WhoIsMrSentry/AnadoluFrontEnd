@@ -1,0 +1,23 @@
+h1 , h2, h3, h4, h5, h6 {
+     color: #88001b;
+}
+
+* {
+background-color: aqua;
+}
+
+html {
+    background-color: blueviolet;
+}
+
+p {
+background-color: brown;
+}
+
+p.bgtext {
+    background-color: yellow;
+}   
+
+p#textid {
+    color: red;
+}   
