@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 70%;
+            border: 2px solid black;
+            margin: 30px auto;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            border-collapse: collapse;
+            /* border-collapse: separate; */
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        tbody td {
+            border-bottom: 1px solid #b7a5a5;
+        }
+
+        thead {
+            background-color: rgb(6, 145, 99);
+            color: white;
+        }
+
+        th {
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+
+        }
+
+        tbody tr {
+            background-color: #fafafa;
+        }
+
+        tbody tr:hover {
+            background-color: #ddd;
+        }
+
+        tfoot td {
+            background-color: #eee;
+            text-align: center;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="overflow: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <td>Ad</td>
+                    <td>Soyad</td>
+                    <td>Okul İsmi</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ahmet</td>
+                    <td>Avcıoğlu</td>
+                    <td>Anadolu Üni.</td>
+                </tr>
+                <tr>
+                    <td>Ege</td>
+                    <td>Ejder</td>
+                    <td>Osmangazi Üni.</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">Toplam 2 kişi</td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+</body>
+
+</html>
