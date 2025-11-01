@@ -6,12 +6,16 @@
     <title>Document</title>
 
     <style>
+        /* Ders 6 - display özellikleri
+           block, inline, inline-block, none (gizleme) örnekleri
+        */
         .kutu1 {
             background-color: aquamarine;
             display: block;
             width: 200px;
             height: 50px;
             margin-bottom: 10px;
+            /* display: block -> yeni satırdan başlar, genişlik/yükseklik alabilir */
         }
 
         .kutu2, .kutu3 {
@@ -19,6 +23,7 @@
             display: inline-block;
             padding: 10px;
             color: white;
+            /* inline-block -> satır içinde yan yana gelir, yine de genişlik/yükseklik alabilir */
         }
 
         .buton {
@@ -30,6 +35,8 @@
             width: 100px;
             height: 50px;
             display: none;
+            /* display: none -> Elemanı tamamen gizler, sayfada yer kaplamaz.
+               Bu örnekte butonlar bilerek gizlenmiştir. */
             
         }
 
@@ -39,19 +46,21 @@
             padding: 20px;
             color: white;
             display: none;
+            /* Bu kapsayıcıdaki tüm div'ler gizli. display'ı block/inline-block yaparsanız görünürler. */
         }
     </style>
 </head>
 <body>
-    
+    <!-- Block eleman örneği -->
     <div class="kutu1">Block Eleman</div>
+    <!-- Inline-block eleman örnekleri: aynı satırda yan yana gelebilirler -->
     <span class="kutu2">İnline Eleman</span>
     <span class="kutu3">Diğer İnline</span>
     <span class="kutu3">Diğer İnline</span>
     <span class="kutu3">Diğer İnline</span>
 
 
-
+    <!-- Menü örneği: .buton sınıfı display:none olduğu için görünmez -->
     <div class="menu">
         <div class="buton">Ana Sayfa</div>
         <div class="buton">Hakkında</div>
@@ -59,6 +68,7 @@
     </div>
 
 
+    <!-- Kapsayıcı örneği: içteki div'ler display:none olduğu için gizlenmiştir -->
     <div class="kapsayici">
         <div>Kutu 1</div>
         <div>Kutu 2</div>

@@ -7,6 +7,9 @@
     <title>Document</title>
     <style>
 
+        /* Ders 6 - Mini menü uygulaması
+           Sabit (fixed) header, ortalanmış container, kategori başlıkları ve
+           menü ögelerinde fiyatın absolute ile sağa hizalanması. */
         body {
             background-color: rgb(243, 192, 163);
         }
@@ -18,11 +21,13 @@
             background-color: rgb(231, 100, 25);
             color: white;
             text-align: center;
+            /* Fixed header -> her zaman üstte görünür */
         }
 
         .header h1 {
             font-size: 24px;
             letter-spacing: 2px;
+            /* Başlık tipografisi */
         }
 
         .container {
@@ -30,6 +35,7 @@
             margin: 0 auto;
             background-color: rgb(242, 217, 217);
             padding: 30px;
+            /* Sayfa içeriğini ortalar ve okunabilir bir alan oluşturur */
         }
 
         .category {
@@ -42,6 +48,7 @@
             padding-bottom: 10px;
             margin-bottom: 20px;
             padding-top: 15px;
+            /* Bölüm başlığı için vurgu */
         }
 
         .menu-list {
@@ -49,12 +56,14 @@
         }
         .menu-list.corbalar {
             list-style-type: disc;
+            /* İlgili kategori için noktalı madde işareti */
         }
 
         .menu-list li {
             padding: 12px;
             border-bottom: 1px solid rgb(231, 100, 25);
             position: relative;
+            /* relative -> içteki .price elemanını konumlamak için referans */
         }
 
         .price {
@@ -62,6 +71,7 @@
             right: 10px;
             font-weight: 900;
             color: rgb(231, 100, 25);
+            /* Fiyatı li'nin sağ tarafına sabitle */
         }
 
 
@@ -69,13 +79,16 @@
 </head>
 
 <body>
+    <!-- Sabit üst başlık -->
     <div class="header">
         <h1>Eskişehir Restoran</h1>
     </div>
 
+    <!-- İçerik kapsayıcısı -->
     <div class="container">
         <div class="category">
             <h2>Çorbalar</h2>
+            <!-- Menü liste örneği: her öğede fiyat sağda absolute ile hizalanır -->
             <ul class="menu-list corbalar">
                 <li><span class="item-name">Mercimek Çorbası</span><span class="price">45₺</span></li>
                 <li><span class="item-name">Tavuk Suyu Çorbası</span><span class="price">50₺</span></li>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telefon Karşılaştırma</title>
+<style>
+  body {
+    /* Arka planı görseldeki gibi daha doygun mor tonlarla verelim */
+    background: linear-gradient(180deg, #7e57c2 0%, #9575cd 100%);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    width: 80%;
+    max-width: 1100px;
+    margin: 60px auto;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 24px 28px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate; /* border-radius için separate + border-spacing kullan */
+    border-spacing: 0;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 16px;
+    overflow: hidden; /* köşeleri kırpmak için */
+  }
+
+  th, td {
+    border: 1px solid #e0e0e0;
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  thead th {
+    background-color: #7e57c2; /* Başlık satırı mor ve beyaz yazı */
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  /* İlk sütunu (Özellik) vurgula */
+  thead th:first-child {
+    font-weight: 700;
+  }
+  tbody td:first-child {
+    background-color: #f3e5f5;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  /* Zebra satırlar ve hover */
+  tbody tr:nth-child(even) {
+    background-color: #faf7ff;
+  }
+  tbody tr:hover {
+    background-color: #f1e9ff;
+  }
+
+  .highlight {
+    background-color: #f06292; /* Etiket: pembe vurgu */
+    color: white;
+    padding: 3px 6px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+
+  /* Fiyat satırı kendi renginde olsun */
+  .price-row td {
+    background-color: #fff7cc; /* açık sarı */
+    color: #6d4c41; /* kahve ton */
+    font-weight: 700;
+  }
+
+  /* Sabit alt bilgi */
+  .footer {
+    /* Fiyat listesi balonu kendi rengine sahip */
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: #009688; /* teal */
+    color: white;
+    padding: 10px 18px;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+    font-size: 14px;
+    cursor: default;
+  }
+
+  .footer:hover {
+    background-color: #00796b;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>📱 Telefon Karşılaştırma Tablosu</h1>
+
+  <table>
+    <tr>
+      <th>Özellik</th>
+      <th>iPhone 15 Pro</th>
+      <th>Samsung S24 Ultra <span class="highlight">En Popüler</span></th>
+      <th>Xiaomi 14 Pro</th>
+    </tr>
+    <tr>
+      <td>Model</td>
+      <td>iPhone 15 Pro</td>
+      <td>Samsung Galaxy S24 Ultra</td>
+      <td>Xiaomi 14 Pro</td>
+    </tr>
+    <tr class="price-row">
+      <td>Fiyat</td>
+      <td>54.999 ₺</td>
+      <td>49.999 ₺</td>
+      <td>42.999 ₺</td>
+    </tr>
+    <tr>
+      <td>Ekran</td>
+      <td>6.1" OLED 120Hz</td>
+      <td>6.8" AMOLED 120Hz</td>
+      <td>6.73" AMOLED 120Hz</td>
+    </tr>
+    <tr>
+      <td>Kamera</td>
+      <td>48MP Ana<br>12MP Ultra Geniş<br>12MP Telefoto</td>
+      <td>200MP Ana<br>12MP Ultra Geniş<br>50MP Telefoto<br>10MP Telefoto</td>
+      <td>50MP Ana<br>50MP Ultra Geniş<br>50MP Telefoto</td>
+    </tr>
+    <tr>
+      <td>Pil</td>
+      <td>3274 mAh<br>27W Hızlı Şarj</td>
+      <td>5000 mAh<br>45W Hızlı Şarj</td>
+      <td>4880 mAh<br>120W Hızlı Şarj</td>
+    </tr>
+    <tr>
+      <td>İşlemci</td>
+      <td>Apple A17 Pro</td>
+      <td>Snapdragon 8 Gen 3</td>
+      <td>Snapdragon 8 Gen 3</td>
+    </tr>
+    <tr>
+      <td>RAM</td>
+      <td>8 GB</td>
+      <td>12 GB</td>
+      <td>16 GB</td>
+    </tr>
+  </table>
+</div>
+
+<div class="footer">
+  💰 Fiyat listesi güncellendi: 27.10.2025
+</div>
+
+</body>
+</html>
