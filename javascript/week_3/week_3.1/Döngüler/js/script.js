@@ -58,32 +58,32 @@ for (var i = 0; i <= 2; i++) {
 
 
 // 24 saatlik döngü: 0-23 arası her saat için çalışır
-for (var i = 0; i <= 23; i++) {
+for (var saat = 0; saat <= 23; saat++) {
     // Her saat içinde 60 dakika döngüsü: 0-59 arası
-    for (var j = 0; j < 60; j++) {
+    for (var dakika = 0; dakika < 60; dakika++) {
         // Önce özel durumları kontrol et
         // 12:00'da ara verme durumu
-        if (i == 12 && j == 0) {
+        if (saat == 12 && dakika == 0) {
             console.log("Saat 12:00 - Derse ara verildi");
             // continue: Bu adımı atla, bir sonraki dakikaya geç
             continue;
         } 
         // 13:00'da ders bitiş durumu
-        else if (i == 13 && j == 0) {
+        else if (saat == 13 && dakika == 0) {
             console.log("Saat 13:00 - Ders bitti");
             // break: İç döngüyü (dakika döngüsünü) sonlandır
             break;
         }
         // Saat ve dakika formatını oluştur (sıfır doldurma ile)
         // padStart(2, '0'): Sayıyı 2 haneli yapar, eksikse başına '0' ekler
-        const hh = String(i).padStart(2, '0');
-        const mm = String(j).padStart(2, '0');
+        const hh = String(saat).padStart(2, '0');
+        const mm = String(dakika).padStart(2, '0');
         // Template literal kullanarak formatlı çıktı
         console.log(`saat ${hh}:${mm}`);
     }
     // 13:00'da tamamen dur
     // Dış döngüyü (saat döngüsünü) sonlandır
-    if (i == 13) {
+    if (saat == 13) {
         break;
     }
 }

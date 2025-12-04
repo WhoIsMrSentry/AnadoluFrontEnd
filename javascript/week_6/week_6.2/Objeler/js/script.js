@@ -119,7 +119,7 @@ var object = {
 
 alert(object.for + object.let + object.return); // 6 ekrana yazdırılır
 alert(String(object["for"]) + String(object["let"]) + String(object["return"])); // "123" ekrana yazdırılır
-alert(object["let"] * object["return"] + String(object["for"])); // 6 ekrana yazdırılır
+alert(object["let"] * object["return"] + String(object["for"])); // 61 ekrana yazdırılır
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

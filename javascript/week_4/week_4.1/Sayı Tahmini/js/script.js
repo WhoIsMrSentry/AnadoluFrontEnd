@@ -29,8 +29,9 @@ if (cevap1 === 8) {
     alert("Tebrikler! Doğru cevap. Puanınız: " + puan);
 } else {
     // Yanlış cevap: puanı 10 azalt
-    alert("Maalesef yanlış cevap. Doğru cevap 8'dir. Puanınız: " + puan);
     puan = puan - 10;
+    alert("Maalesef yanlış cevap. Doğru cevap 8'dir. Puanınız: " + puan);
+    
 }
 console.log("1. soru tamamlandı. Puanınız: " + puan);
 
@@ -44,8 +45,8 @@ if (cevap2 === 19) {
     puan = puan + 10;
     alert("Tebrikler! Doğru cevap. Puanınız: " + puan);
 } else {
-    alert("Maalesef yanlış cevap. Doğru cevap 19'dur. Puanınız: " + puan);
     puan = puan - 10;
+    alert("Maalesef yanlış cevap. Doğru cevap 19'dur. Puanınız: " + puan);
 }
 console.log("2. soru tamamlandı. Puanınız: " + puan);
 
@@ -59,8 +60,8 @@ if (cevap3 === 35) {
     puan = puan + 10;
     alert("Tebrikler! Doğru cevap. Puanınız: " + puan);
 } else {
-    alert("Maalesef yanlış cevap. Doğru cevap 35'tir. Puanınız: " + puan);
     puan = puan - 10;
+    alert("Maalesef yanlış cevap. Doğru cevap 35'tir. Puanınız: " + puan);
 }
 console.log("3. soru tamamlandı. Puanınız: " + puan);
 
@@ -74,8 +75,8 @@ if (cevap4 === 75) {
     puan = puan + 10;
     alert("Tebrikler! Doğru cevap. Puanınız: " + puan);
 } else {
-    alert("Maalesef yanlış cevap. Doğru cevap 75'tir. Puanınız: " + puan);
     puan = puan - 10;
+    alert("Maalesef yanlış cevap. Doğru cevap 75'tir. Puanınız: " + puan);
 }
 console.log("4. soru tamamlandı. Puanınız: " + puan);
 
@@ -89,8 +90,8 @@ if (cevap5 === 250) {
     puan = puan + 10;
     alert("Tebrikler! Doğru cevap. Puanınız: " + puan);
 } else {
-    alert("Maalesef yanlış cevap. Doğru cevap 250'dir. Puanınız: " + puan);
     puan = puan - 10;
+    alert("Maalesef yanlış cevap. Doğru cevap 250'dir. Puanınız: " + puan);
 }
 console.log("5. soru tamamlandı. Puanınız: " + puan);
 
