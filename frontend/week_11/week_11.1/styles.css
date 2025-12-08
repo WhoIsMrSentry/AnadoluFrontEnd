@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.menu {
+    background-color: #3498db;
+    text-align: center;
+}
+
+.menu ul {
+    list-style-type: none;
+}
+
+.menu>ul>li {
+    display: inline-block;
+    position: relative;
+}
+
+.menu a {
+    display: block;
+    padding: 20px 30px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+}
+
+.menu a:hover {
+    background-color: #2980b9;
+}
+
+.menu .alt-menu {
+    display: none;
+    position: absolute;
+    left : 0;
+    top: 100%;
+    list-style: none;
+    background-color: #3498db;
+}
+
+.menu li:hover>.alt-menu {
+    display: block;
+}
