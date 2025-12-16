@@ -1,0 +1,55 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    background-color: #360727;
+    padding: 20px 40px;
+    justify-content: space-between;
+
+}
+
+.logo { 
+    background-color: orange;
+    color: white;
+    padding: 10px 20px;
+    font-size: 22px;
+    }
+
+.nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav a {
+    background-color: rgb(43, 179, 179);
+    color:white;
+    padding: 10px 15px;
+    text-decoration: none;
+    }
+
+.nav a:hover {
+    background-color: rgb(23, 139, 139);
+}
+
+.hero {
+    background-color: purple;
+    height: 780px;
+    color: white;
+    font-weight: bold;
+    font-size: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer {
+display: flex;
+justify-content: space-between;
+background-color: #360727;
+padding: 20px 40px;
+color: white;
+}
