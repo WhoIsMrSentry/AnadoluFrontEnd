@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .liste li:nth-child(5) {
+            color: red;
+        }
+
+        .liste li:nth-child(odd) {
+            color: aqua;
+        }
+
+        .liste li:nth-child(even) {
+            color: tomato;
+        }
+
+        #dersler li:nth-child(n + 3) {
+            color: blue;
+        }
+
+        #dersler li:nth-child(-n + 3) {
+            color: red;
+        }
+
+        #dersler li:nth-child(n + 3):nth-child(-n + 5) {
+            color: purple;
+        }
+
+        div:nth-of-type(3n) {
+            color: red;
+        }
+
+        div:nth-last-of-type(3n) {
+            color: red;
+        }
+
+        div:nth-last-of-type(2) {
+            color: teal;
+        }
+
+        #dersler:nth-last-child(1) {
+            color: gray;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <ul class="liste">
+        <li>HTML</li>
+        <li>JS</li>
+        <li>CSS</li>
+        <li>Python</li>
+        <li>Ejder</li>
+        <li>Flutter</li>
+        <li>C#</li>
+        <li>.Net</li>
+    </ul>
+
+
+    <ul id="dersler">
+        <li>HTML</li>
+        <li>JS</li>
+        <li>CSS</li>
+        <li>Python</li>
+        <li>Ejder</li>
+        <li>Flutter</li>
+        <li>C#</li>
+        <li>.Net</li>
+    </ul>
+
+
+
+    <div>Div Etiketi</div>
+    <div>Div Etiketi</div>
+    <p>P Etiketi</p>
+    <div>Div Etiketi</div>
+    <div>Div Etiketi</div>
+</body>
+</html>

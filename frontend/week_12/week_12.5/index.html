@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Sosyal Medya Dashboard</title>
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com"
+		/>
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<div class="dashboard">
+			<header class="dashboard__header">
+				<div class="logo">
+					<div class="logo__mark" aria-hidden="true">📊</div>
+					<div>
+						<p class="logo__title">Logo</p>
+						<p class="logo__subtitle">Sosyal Medya Paneli</p>
+					</div>
+				</div>
+				<nav class="tabs" aria-label="Üst menü">
+					<a class="tab is-active" href="#">Dashboard</a>
+					<a class="tab" href="#">Analytics</a>
+					<a class="tab" href="#">Ayarlar</a>
+				</nav>
+				<button class="primary-btn" type="button">+ Yeni Post</button>
+			</header>
+
+			<section class="hero">
+				<p class="eyebrow">Flex Container Dersi</p>
+				<h1>Sosyal Medya Dashboard</h1>
+				<p class="lede">
+					Aşağıdaki yönetim paneli ile platformlarınızdaki büyümeyi takip edin,
+					gönderileri yönetin ve yeni kampanyalar oluşturun.
+				</p>
+			</section>
+
+			<section class="panel">
+				<div class="section-title">
+					<label class="toggle">
+						<input type="checkbox" checked />
+						<span>Bugünün İstatistikleri</span>
+					</label>
+				</div>
+				<div class="stats-grid">
+					<article class="stat-card instagram">
+						<div class="stat-card__icon" aria-hidden="true">📸</div>
+						<h3>Instagram</h3>
+						<p class="stat-card__value">12.5K</p>
+						<p class="stat-card__label">Takipçi</p>
+						<p class="stat-card__delta">+12 % bu ay</p>
+					</article>
+					<article class="stat-card twitter">
+						<div class="stat-card__icon" aria-hidden="true">🐦</div>
+						<h3>Twitter</h3>
+						<p class="stat-card__value">8.3K</p>
+						<p class="stat-card__label">Takipçi</p>
+						<p class="stat-card__delta">+8 % bu ay</p>
+					</article>
+					<article class="stat-card youtube">
+						<div class="stat-card__icon" aria-hidden="true">▶️</div>
+						<h3>YouTube</h3>
+						<p class="stat-card__value">25.8K</p>
+						<p class="stat-card__label">Abone</p>
+						<p class="stat-card__delta">+25 % bu ay</p>
+					</article>
+					<article class="stat-card tiktok">
+						<div class="stat-card__icon" aria-hidden="true">🎵</div>
+						<h3>TikTok</h3>
+						<p class="stat-card__value">45.2K</p>
+						<p class="stat-card__label">Takipçi</p>
+						<p class="stat-card__delta">+35 % bu ay</p>
+					</article>
+				</div>
+			</section>
+
+			<section class="panel">
+				<div class="section-title">
+					<h2>Son Gönderiler</h2>
+					<p class="section-hint">Platformlara göre filtreleyin</p>
+				</div>
+				<div class="posts-grid">
+					<article class="post-card">
+						<div class="post-card__icon" aria-hidden="true">💡</div>
+						<div>
+							<p class="post-card__title">UI/UX Tasarım İpuçları</p>
+							<p class="post-card__meta">Modern web tasarımında kullanıcı deneyimi</p>
+						</div>
+						<span class="post-card__time">12 saat önce</span>
+					</article>
+					<article class="post-card">
+						<div class="post-card__icon" aria-hidden="true">💻</div>
+						<div>
+							<p class="post-card__title">Kodlama Teknikleri</p>
+							<p class="post-card__meta">JavaScript'te clean code yazmanın yolları</p>
+						</div>
+						<span class="post-card__time">5 saat önce</span>
+					</article>
+					<article class="post-card">
+						<div class="post-card__icon" aria-hidden="true">🚀</div>
+						<div>
+							<p class="post-card__title">Proje Lansmanı</p>
+							<p class="post-card__meta">Yeni projemizi duyurmaktan mutluluk duyuyoruz</p>
+						</div>
+						<span class="post-card__time">1 gün önce</span>
+					</article>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #f4f4f4;
+    }
+
+    .header {
+      background-color: #88001b;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    .header h2 {
+      margin: 5px 0 0 0;
+      font-size: 1.2em;
+      color: #a3a1a1;
+    }
+
+    .navbar {
+      background-color: #333;
+    }
+
+    .navbar ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+    }
+
+    .navbar ul li {
+      margin: 0 15px;
+    }
+
+    .navbar ul li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    .navbar ul li a:hover {
+      background-color: #575757;
+    }
+
+    img.profile-img {
+      border-radius: 50%;
+      flex-shrink: 0;
+      width: 250px;
+      height: 250px;
+    }
+
+    .profile-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      flex-wrap: wrap;
+      padding: 20px 20px 0 20px;
+    }
+
+    .about-me {
+      padding: 0;
+      min-width: 280px;
+      flex: 1;
+    }
+
+    #yeteneklerim {
+      margin-top: 40px;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 400px;
+    }
+
+    .skill-item {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    #egitim {
+      margin-top: 40px;
+    }
+
+    .education-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #fff;
+    }
+    .education-table th,
+    .education-table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    .education-table th {
+      background-color: #88001b;
+      color: #fff;
+    }
+    .education-table tbody tr:nth-child(even) {
+      background-color: #f4e6ea;
+    }
+    .education-table tbody tr:hover {
+      background-color: #d10d34;
+      transition: background 0.2s;
+    }
+
+    #projelerim {
+      margin-top: 40px;
+    }
+
+    .projects-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-height: 500px;
+      overflow-y: auto;
+      padding-bottom: 20px;
+    }
+    .project-card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      width: calc(33% - 20px);
+      min-width: 250px;
+      box-sizing: border-box;
+    }
+    @media (max-width: 900px) {
+      .project-card {
+        width: calc(50% - 20px);
+      }
+    }
+    @media (max-width: 600px) {
+      .projects-container {
+        flex-direction: column;
+        max-height: none;
+        overflow-y: visible;
+      }
+      .project-card {
+        width: 100%;
+      }
+    }
+
+    .site-footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+    }
+
+    .contact-info-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    .contact-section {
+      flex: 1 1 320px;
+      min-width: 320px;
+      max-width: 500px;
+      margin-top: 00px;
+      padding: 0px;
+      display: flex;
+      flex-direction: column;
+      
+      align-items: center;
+    }
+    .contact-section h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #88001b;
+
+    }
+    .contact-form {
+      max-width: 500px;
+      margin-bottom: 0;
+      width: 100%;
+      background: #fff;
+      padding: 12px;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(136,0,27,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
+    .form-group label {
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 90%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      transition: border-color 0.2s;
+      margin-top: 4px;
+      background: #f8f8f8;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #88001b;
+      outline: none;
+      background: #fff;
+    }
+    .contact-form button {
+      background-color: #88001b;
+      color: #fff;
+      border: none;
+      padding: 12px 0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .contact-form button:hover {
+      background-color: #a31234;
+    }
+
+    #benim-bilgilerim {
+      flex: 1 1 320px;
+      min-width: 320px;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(136,0,27,0.08);
+      padding: 30px;
+      height: fit-content;
+    }
+    #benim-bilgilerim h2 {
+      text-align: center;
+      color: #88001b;
+    }
+    #benim-bilgilerim ul {
+      list-style: none;
+      padding: 0;
+      font-size: 1.1em;
+    }
+    #benim-bilgilerim li {
+      margin-bottom: 10px;
+      font-size: 1.2em;
+      padding: 15px;
+      margin-bottom: 5px;
+    }
+    #benim-bilgilerim span {
+      font-weight: bold;
+      color: #88001b;
+    }
+    #benim-bilgilerim a {
+      color: #88001b;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <h1>Emir Hamurcu</h1>
+    <h2>Full Stack Developer | Student</h2>
+  </header>
+
+  <nav class="navbar">
+    <ul>
+      <li><a href="#anasayfa">Ana Sayfa</a></li>
+      <li><a href="#hakkımda">Hakkımda</a></li>
+      <li><a href="#yeteneklerim">Yeteneklerim</a></li>
+      <li><a href="#egitim">Eğitim Geçmişim</a></li>
+      <li><a href="#projelerim">Projelerim</a></li>
+      <li><a href="#iletişim">İletişim</a></li>
+    </ul>
+  </nav>
+
+  <div class="profile-container">
+    <img class="profile-img" src="https://media.licdn.com/dms/image/v2/D4D03AQFEhcoWvRORPg/profile-displayphoto-shrink_200_200/B4DZOg6iXcHgAY-/0/1733571521307?e=1767830400&v=beta&t=Dgn07ZRA5xxQaUHI-e48lKw8nKhh_tNIEVx70r6T6kA" alt="Profile Picture">
+    <section class="about-me">
+      <h2>Hakkımda</h2>
+      <p>Merhaba! Ben Emir Hamurcu, bir Full Stack Developer ve öğrenci. Gömülü sistemler konusunda tutkuluyum ve yeni teknolojiler öğrenmeyi seviyorum. Boş zamanlarımda kod yazmak, projeler geliştirmek ve teknoloji dünyasındaki yenilikleri takip etmekle meşgulüm. Son zamanlarda kendi refakatçi robot projem SentryBOT ile uğraşıyorum. SentryBOT insanlar ile etkileşime girebilen tanıyan mizah yapan yardımcı olan asistan bir robottur.</p>
+
+      <section id="yeteneklerim">
+        <h2>Yeteneklerim</h2>
+        <div class="skills-list">
+          <div class="skill-item">Python</div>
+          <div class="skill-item">JavaScript</div>
+          <div class="skill-item">C/C++</div>
+          <div class="skill-item">HTML &amp; CSS</div>
+          <div class="skill-item">Arduino &amp; Gömülü Sistemler</div>
+        </div>
+      </section>
+      
+      <section id="egitim">
+        <h2>Eğitim Geçmişim</h2>
+        <table class="education-table">
+          <thead>
+            <tr>
+              <th>Yıl</th>
+              <th>Okul/Kurum</th>
+              <th>Bölüm/Program</th>
+              <th>Durum</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2025 - Günümüz</td>
+              <td>Anadolu Üniversitesi</td>
+              <td>Arkayüz Yazılım Geliştirici</td>
+              <td>Devam Ediyor</td>
+            </tr>
+            <tr>
+              <td>2021 - 2025</td>
+              <td>Defne Anadolu Lisesi</td>
+              <td>Sayısal</td>
+              <td>Mezun</td>
+            </tr>
+            <tr>
+              <td>2017 - 2021</td>
+              <td>Değirmenyolu Ortaokulu</td>
+              <td>Fen Bilimleri</td>
+              <td>Mezun</td>
+            </tr>
+            <tr>
+              <td>2013 - 2017</td>
+              <td>Değirmenyolu İlkokulu</td>
+              <td>Fen Bilimleri</td>
+              <td>Mezun</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="projelerim">
+        <h2>Projelerim</h2>
+        <div class="projects-container">
+        <div class="project-card">
+          <h3>SentryBOT</h3>
+          <p>Bu açık kaynaklı proje, modüler bir iki ayaklı yardımcı robot ve özel eklentilerle geliştirilmiş bir çerçeve sunmaktadır. Kullanıcı ihtiyaçlarına göre özelleştirilebilir ve genişletilebilir olacak şekilde tasarlanan bu esnek çerçeve, API tabanlıdır ve robotik ve otomasyon projelerinde kullanılmak üzere tasarlanmıştır. Proje hem donanım hem de yazılım bileşenlerini içermektedir.</p>
+          <a href="https://github.com/WhoIsMrSentry/SentryBOT" target="_blank" rel="noopener">Proje Linki</a>
+        </div>
+        <div class="project-card">
+          <h3>Esp32 FireFighter Tank</h3>
+          <p>Orman yangınlarına uzaktan müdahale etmek için kullanılan bir araç</p>
+          <a href="https://github.com/WhoIsMrSentry/ESP32_Tank_Drive_FireFighter" target="_blank" rel="noopener">Proje Linki</a>
+        </div>
+        <div class="project-card">
+          <h3>GLaDOS</h3>
+          <p>İnsanlar ile etkileşime giren narsist bir yapay zeka botu fizik bedeni olan ve Portal oyun serisinden esinlenen bir robot.</p>
+          <a href="https://github.com/WhoIsMrSentry/GLaDOS" target="_blank" rel="noopener" >Proje Linki</a>
+        </div>
+        <div class="project-card">
+          <h3>DeskGUI</h3>
+          <p>SentryBOT için masaüstü kontrol ve izleme arayüzü. PyQt5 tabanlı gelişmiş grafik kullanıcı arayüzü (GUI), robotla gerçek zamanlı iletişim, video akışı, sesli komut, yüz tanıma, nesne algılama ve LLM entegrasyonunu içerir.</p>
+          <a href="https://github.com/WhoIsMrSentry/DeskGUI" target="_blank" rel="noopener">Proje Linki</a>
+        </div>
+        <div class="project-card">
+          <h3>H3RU-Home_Control_System</h3>
+          <p>Bu proje, NVIDIA Jetson Nano ve Arduino kullanarak evde güvenlik ve otomasyon sağlamak üzere geliştirilmiş bir sistemdir. Sistem, çeşitli kameraları entegre eder ve web arayüzü aracılığıyla garaj ve giriş kapısının kontrolünü sağlar. Kullanıcılar web üzerinden kapıyı açabilir, kapı zili bildirimleri alabilir ve sesli iletişim kurabilirler.</p>
+          <a href="https://github.com/WhoIsMrSentry/H3RU-Home_Control_System"target="_blank" rel="noopener">Proje Linki</a>
+        </div>
+        <div class="project-card">
+          <h3>ESP32-IMU_MOUSE</h3>
+          <p>ESP32 ve MPU6050 sensörü kullanılarak geliştirilen proje, el eğimine bağlı olarak fare hareketlerini ve kaydırma işlevini simüle eder. Bluetooth aracılığıyla cep telefonu veya bilgisayar gibi diğer cihazlarla iletişim kurabilir.</p>
+          <a href="https://github.com/WhoIsMrSentry/ESP32-IMU_MOUSE"target="_blank" rel="noopener">Proje Linki</a>
+        </div>
+        <div class="project-card">
+          <h3>Esp32-FingerFlow_Glove</h3>
+          <p>Control Glove, potansiyometreler kullanarak parmak hareketlerini doğru bir şekilde izlemek ve bu verileri ESP32 tabanlı bir kart tarafından desteklenen merkezi bir cihaza iletmek üzere tasarlanmış akıllı bir eldivendir.</p>
+          <a href="https://github.com/WhoIsMrSentry/ESP32-IMU_MOUSE"target="_blank" rel="noopener">Proje Linki</a>
+        </div>
+        <div class="project-card">
+          <h3>Gemini_SeeSpeakTranslate_GUI</h3>
+          <p>Bu proje, gerçek zamanlı video akışlarından kareleri analiz eden, çok dilli ve metinden sese (TTS) dönüştürme özelliklerine sahip bir içerik tanıma uygulaması sunmaktadır. Google'ın güçlü yapay zeka modellerini kullanarak görüntüleri analiz eder ve farklı dillerde açıklamalar sağlar. Bu açıklamalar sesli olarak da iletilebilir.</p>
+          <a href="https://github.com/WhoIsMrSentry/Gemini_SeeSpeakTranslate_GUI"target="_blank" rel="noopener">Proje Linki</a>
+        </div>
+        <div class="project-card">
+          <h3>Gemini_SeeSpeakTranslate_GUI</h3>
+          <p>Bluetooth üzerinden potansiyometre verilerini iletir ve potansiyometrenin değerini ekranda görüntüler. Bileklik yardımıyla Bluetooth projelerinizin uzaktan kontrolünü sağlar.</p>
+          <a href="https://github.com/WhoIsMrSentry/Node32s-BT_Wristband"target="_blank" rel="noopener">Proje Linki</a>
+        </div>
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <div class="contact-info-wrapper">
+    
+
+    <section id="benim-bilgilerim">
+      <h2>İletişim Bilgilerim</h2>
+      <ul>
+        <li>
+          <span>Emir Hamurcu</span>
+        </li>
+        <li><strong>Meslek:</strong> Full Stack Developer, Öğrenci</li>
+        <li><strong>Email:</strong> emir.hamurcu@gmail.com</li>
+        <li><strong>GitHub:</strong> <a href="https://github.com/WhoIsMrSentry" target="_blank" rel="noopener">WhoIsMrSentry</a></li>
+        <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/emir-hamurcu/" target="_blank" rel="noopener">Emir Hamurcu</a></li>
+        <li><strong>Lokasyon:</strong> Türkiye</li>
+      </ul>
+    </section>
+
+
+    <section id="iletişim" class="contact-section">
+      
+      <form class="contact-form" method="post">
+        <h2>İletişime geç</h2>
+        <div class="form-group">
+          <label for="name">Ad Soyad</label><br>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label><br>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Mesaj</label><br>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit">Gönder</button>
+      </form>
+    </section>
+    
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-social">
+      <a href="https://github.com/WhoIsMrSentry" target="_blank" rel="noopener">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="32" height="32">
+      </a>
+      <a href="https://www.linkedin.com/in/emir-hamurcu/" target="_blank" rel="noopener">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn" width="32" height="32">
+      </a>
+      <a href="mailto:emir.hamurcu@gmail.com">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Email" width="32" height="32">
+      </a>
+    </div>
+    <div class="footer-copy">
+      &copy; 2024 Emir Hamurcu. Tüm hakları saklıdır.
+    </div>
+  </footer>
+
+</html>
