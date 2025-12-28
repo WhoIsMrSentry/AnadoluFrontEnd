@@ -125,6 +125,7 @@ alert(isim) //Ahmet
 // Değiştirmek için yeni bir string oluşturursun.
 isim = isim[0] + "hmet" // yeni string
 alert(isim) //Ahmet
+
 isim = isim[3] + "hmet" // yeni string (3. index 'e')
 alert(isim) //ehmet
 
@@ -161,10 +162,10 @@ isim.indexOf("A", 1) //-1
 var tekerleme = "Bir berber bir berbere gel beraber bir berber dükkanı açalım demiş."
 
 // indexOf: metin içinde arama yapar, ilk geçen yerin index'ini döner.
-tekerleme.indexOf("bir") //1
+tekerleme.indexOf("bir") //10
 
 // indexOf(aranan, başlangıçIndexi): belirtilen indexten itibaren arar.
-tekerleme.indexOf("bir",1) //5
+tekerleme.indexOf("bir",11) //22
 
 // lastIndexOf: sondan geriye doğru arar (son geçen yeri bulmak için)
 tekerleme.lastIndexOf("bir") //43
@@ -232,8 +233,10 @@ alert("abc"=="abc") //true
 alert("abc"!="abc") //false
 
 // Büyük/küçük harflerin Unicode değerleri farklıdır
+// "a" karakterinin Unicode değeri 97, "A" karakterinin Unicode değeri 65'tir.
+// Bu yüzden "a" > "A" ifadesi true, "A" > "a" ifadesi de false olur.
 alert("a">"A") //true
-alert("A"<"a") //false
+alert("A">"a") //false
 
 // Yerel harfler (Ö gibi) Unicode sıralamasında beklediğin gibi davranmayabilir
 alert("Österreich"<"Zealand") //false

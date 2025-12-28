@@ -181,7 +181,7 @@ parseFloat("123.45"); // 123.45
 parseFloat("100px"); // 100
 parseFloat("Emir123.45"); // NaN
 parseFloat("123.45abc"); // 123.45
-parseFloat("0.1e2"); // 10
+parseFloat("0.1e2"); // 10 (0.1 * 10^2 = 10)
 parseFloat("   5.67   "); // 5.67
 
 // parseFloat okurken ikinci noktada durur.
