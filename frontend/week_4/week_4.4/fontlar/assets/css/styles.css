@@ -1,21 +1,33 @@
 /* MR ROBOT fontunu projeye dahil etme */
 @font-face {
-    font-family: 'MR ROBOT';
-    src: url('../fonts/MR ROBOT.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-    text-align: center;
-}
+    font-family: 'MR ROBOT'; /* Kullanılacak font adı */
+    src: url('../fonts/MR ROBOT.ttf') format('truetype'); /* Font dosyasının yolu ve formatı */
+    font-weight: normal; /* Normal kalınlık */
+    font-style: normal;  /* Normal stil */
+    font-display: swap;  /* Yüklenene kadar yedek font göster */
+    text-align: center;  /* (font-face için etkisiz) */
 
-/* Paragraflarda kullan */
+}
+/* Tüm paragraflarda MR ROBOT fontunu uygula, boyut ve hizalama ayarla */
 p {
-    font-family: 'MR ROBOT', Arial, Helvetica, sans-serif;
-    font-size: 48px;      /* temel boyut */
-    text-align: center;
+    font-family: 'MR ROBOT', Arial, Helvetica, sans-serif; /* Önce MR ROBOT, yoksa yedekler */
+    font-size: 48px;      /* Temel yazı boyutu */
+    text-align: center;   /* Ortala */
+}
 
+/* isim-soyisim class'ı: Arka planı siyah, yazı rengi bordo */
+.isim-soyisim {
+    background-color: black; /* Arka plan siyah */
+    color: #88001b;         /* Yazı rengi bordo */
 }
-isim-soyisim {
-    background-color: pink;
-    color: blue;
+
+/* red-text-shadow class'ı: Kırmızı gölge efekti uygula */
+.red-text-shadow {
+    text-shadow: 2px 2px 8px red; /* Kırmızı gölge */
 }
+
+/*  background-color: Arka plan rengini belirler. (Örn: black → siyah)
+    color: Yazı rengini belirler. (Örn: #88001b → bordo)
+    text-shadow: Yazıya gölge efekti ekler. Parametreler sırasıyla yatay gölge, dikey gölge, 
+    bulanıklık ve gölge rengi anlamına gelir. 
+    (Örn: 2px 2px 8px red → sağa 2px, aşağı 2px, 8px bulanıklık, kırmızı renk)

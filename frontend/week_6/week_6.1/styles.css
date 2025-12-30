@@ -1,0 +1,59 @@
+/* Ders 6 - Tablo (table) stilleri
+Amaç: Tablonun genel yerleşimi, kenarlıklar, başlık/gövde/altlık alanlarınınnayrımı ve hover (üzerine gelince) etkileri.
+*/
+table {
+    width: 70%;
+    border: 5px solid black;
+    margin: 30px auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    border-collapse: collapse;
+    /* border-collapse: separate; */
+    /* border-collapse: collapse; -> Hücre kenarlıklarını birleştirir */
+    /* separate -> Hücre kenarlıkları ayrı ayrı görünür (varsayılan) */
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    /* Hücre iç boşluğu ve hizalama */
+}
+
+tbody td {
+    border-bottom: 1px solid #b7a5a5;
+    /* Sadece gövdedeki hücrelerin altına ince çizgi */
+}
+
+thead {
+    background-color: rgb(6, 145, 99);
+    color: white;
+    /* Tablonun başlık kısmı (üst kısım) için renkler */
+}
+
+th {
+    font-weight: bold;
+    font-size: 25px;
+
+}
+
+tbody tr {
+    background-color: #fafafa;
+    /* Gövdedeki satırlar için açık arka plan */
+}
+
+tbody tr:hover {
+    background-color: #ddd;
+    /* Satırın üzerine gelince vurgulama */
+}
+
+tfoot td {
+    background-color: #eee;
+    text-align: center;
+    font-style: italic;
+    /* Alt kısım (özet) için stil */
+}
+
+.hücre {
+    overflow: auto;
+}

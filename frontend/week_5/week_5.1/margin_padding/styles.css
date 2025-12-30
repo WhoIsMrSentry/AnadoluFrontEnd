@@ -1,55 +1,7 @@
-.border {
-    border-top-style : dashed;
-    border-bottom-style : dotted;
-    border-left-style : double;
-    border-right-style : groove;
-    border-width: 10px 10px 10px 10px;
-    border-color: #88001b;
-    color: aqua;
-    background-color: rgb(122, 165, 42);
-}
-
-.margin {
-    margin-top: 75px;
-    margin-bottom: 75px;
-    margin-left: 75px;
-    margin-right: 75px;
-}
-
-.padding {
-    padding-top: 75px;
-    padding-bottom: 75px;
-    padding-left: 75px;
-    padding-right: 75px;
-    /* padding: 75px 75px 75px 75px; bunlar aynı üst sağ alt sol diye gider */
-}
-
-.kalip {
-width: 200px;
-overflow: scroll;
-}
-
-#outline {
-    outline-style: dotted;
-    border-style: solid;
-    outline-color: red;
-    outline-width: 5px;
-    text-align: center;
-    text-decoration: underline;
-    text-transform: uppercase;
-    text-indent: 20px;
-    letter-spacing: 20px;
-    line-height: 20px;
-    word-spacing: 20px;
-    text-shadow: -5px -5px blue;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 20px;
-    font-style: italic;
-    font-weight: bold;
-}
-
+/* MR ROBOT fontunu projeye dahil etme: Özel font tanımı, MR ROBOT tarzı yazılar için kullanılır. */
 /* Mr Robot font class */
 /* MR ROBOT fontunu projeye dahil etme */
+
 @font-face {
     font-family: 'MR ROBOT';
     src: url('../fonts/MR ROBOT.ttf') format('truetype');
@@ -61,11 +13,83 @@ overflow: scroll;
     text-transform: uppercase;
 }
 
+
+/* .border: Farklı kenar stilleri, kalınlık ve renk ile kutu kenarlığı oluşturur. Arka plan ve yazı rengi de ayarlanır. */
+.border {
+    border-top-style : dashed;      /* Üst kenar: kesik çizgi */
+    border-bottom-style : dotted;   /* Alt kenar: noktalı */
+    border-left-style : double;     /* Sol kenar: çift çizgi */
+    border-right-style : groove;    /* Sağ kenar: oyuk */
+    border-width: 10px 10px 10px 10px; /* Kenar kalınlıkları */
+    border-color: #88001b;          /* Kenar rengi */
+    color: aqua;                    /* Yazı rengi */
+    background-color: rgb(122, 165, 42); /* Arka plan rengi */
+}
+
+/* .margin: Dış boşlukları (margin) ayarlar, kutunun etrafında boşluk bırakır. */
+.margin {
+    margin-top: 75px;
+    margin-bottom: 75px;
+    margin-left: 75px;
+    margin-right: 75px;
+}
+
+/* .padding: İç boşlukları (padding) ayarlar, kutu içindeki metni kenarlardan uzaklaştırır. */
+.padding {
+    padding-top: 75px;
+    padding-bottom: 75px;
+    padding-left: 75px;
+    padding-right: 75px;
+    /* padding: 75px 75px 75px 75px; bunlar aynı üst sağ alt sol diye gider */
+}
+
+/* .kalip: Sabit genişlikte kutu ve taşan içerik için kaydırma çubuğu ekler. */
+.kalip {
+    width: 200px;
+    overflow: scroll;
+}
+
+/* #outline: Hem outline hem border ile kutu vurgusu, metin hizalama ve biçimlendirme, font ve gölge ayarları. */
+#outline {
+    outline-style: dotted;           /* Dış çerçeve: noktalı */
+    border-style: solid;             /* Kenar: düz çizgi */
+    outline-color: red;              /* Outline rengi */
+    outline-width: 5px;              /* Outline kalınlığı */
+    text-align: center;              /* Metni ortala */
+    text-decoration: underline;      /* Altı çizili metin */
+    text-transform: uppercase;       /* Büyük harf */
+    text-indent: 5px;                /* İlk satır girintisi */
+    letter-spacing: 10px;            /* Harf aralığı */
+    line-height: 20px;               /* Satır yüksekliği */
+    word-spacing: 20px;              /* Kelime aralığı */
+    text-shadow: -5px -5px 5px blue; /* Mavi gölge */
+    font-family: 'Times New Roman', Times, serif; /* Serif font */
+    font-size: 20px;                 /* Orta boyut */
+    font-style: italic;              /* İtalik */
+    font-weight: bold;               /* Kalın */
+}
+
+/* .link: Kırmızı renkli bağlantı (kullanılmıyor, a etiketleri için ayrı ayar var) */
 .link {
     color: red;
 }
 
+/* Bağlantı (a) etiketlerinin farklı durumları için renk ve dekorasyon ayarları */
 a:link { 
     color: red; 
-    text-decoration: none;
+    text-decoration: none; /* Ziyaret edilmemiş link: kırmızı, altı çizili değil */
+}
+
+a:visited { 
+    color: green; 
+    text-decoration: none; /* Ziyaret edilmiş link: yeşil, altı çizili değil */
+}
+
+a:hover { 
+    color: orange; 
+    text-decoration: underline; /* Üzerine gelince: turuncu, altı çizili */
+}
+a:active { 
+    color: blue; 
+    text-decoration: underline; /* Tıklanınca: mavi, altı çizili */
 }

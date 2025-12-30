@@ -1,0 +1,126 @@
+
+/* Telefon Karşılaştırma Tablosu Stilleri */
+
+/* Sayfa arka planı: mor degrade */
+body {
+    /* Arka planı görseldeki gibi daha doygun mor tonlarla verelim */
+    background: linear-gradient(180deg, #7e57c2 0%, #9575cd 100%);
+    font-family: Arial, sans-serif; /* Genel yazı tipi */
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Ana içerik kutusu: Tablo ve başlık burada */
+.container {
+    width: 80%;
+    max-width: 1100px;
+    margin: 60px auto; /* Ortala ve üstten boşluk bırak */
+    background-color: #ffffff; /* Beyaz arka plan */
+    border-radius: 16px; /* Köşeleri yuvarlat */
+    padding: 24px 28px; /* İç boşluk */
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25); /* Gölge efekti */
+}
+
+
+/* Başlık stilini ortala ve koyu yap */
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+
+/* Karşılaştırma tablosu ana stil */
+table {
+    width: 100%;
+    border-collapse: separate; /* border-radius için separate + border-spacing kullan */
+    border-spacing: 0;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 16px; /* Köşeleri yuvarlat */
+    overflow: hidden; /* köşeleri kırpmak için */
+}
+
+
+/* Tüm hücreler: kenarlık, iç boşluk ve ortalama */
+th,
+td {
+    border: 1px solid #e0e0e0;
+    padding: 14px 12px;
+    text-align: center;
+}
+
+
+/* Tablo başlık satırı: mor arka plan, beyaz yazı */
+thead th {
+    background-color: #7e57c2;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+
+/* İlk sütunu (Özellik) vurgula: daha kalın yazı */
+thead th:first-child {
+    font-weight: 700;
+}
+
+
+/* Özellik sütunu: arka planı açık mor, sola hizalı ve kalın */
+tbody td:first-child {
+    background-color: #f3e5f5;
+    font-weight: 700;
+    text-align: left;
+}
+
+
+/* Çift satırlar: açık mor arka plan */
+tbody tr:nth-child(even) {
+    background-color: #faf7ff;
+}
+
+
+/* Satır üzerine gelince: daha koyu mor arka plan */
+tbody tr:hover {
+    background-color: #f1e9ff;
+}
+
+
+/* En popüler etiketi: pembe arka plan, beyaz yazı, köşeleri yuvarlatılmış */
+.highlight {
+    background-color: #f06292;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-left: 6px;
+    white-space: nowrap;
+}
+
+
+/* Fiyat satırı: açık sarı arka plan, kahverengi yazı, kalın */
+.price-row td {
+    background-color: #fff7cc;
+    color: #6d4c41;
+    font-weight: 700;
+}
+
+
+/* Sabit alt bilgi: fiyat listesi balonu, sağ altta sabit, teal arka plan */
+.footer {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: #009688;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+    font-size: 14px;
+    cursor: default;
+}
+
+
+/* Alt bilgi üzerine gelince: daha koyu teal */
+.footer:hover {
+    background-color: #00796b;
+}

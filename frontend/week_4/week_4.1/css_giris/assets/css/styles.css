@@ -1,37 +1,43 @@
 /* Temel ve sade stiller */
-#firstPage {
-    color: #f00;
-    background: #ff0;
-}
 
-#secondPage {
-    color: #00f;
-    background: #ddd;
-}
-
-.paragraph {
-    background: #fafafa;
-    color: #111;
-}
-
+/* #intro id'li elementi yeşil tonlarında renklendirir */
 #intro {
     color: #065f46;
     background: #d1fae5;
 }
 
+/* #firstPage id'li elementi kırmızı yazı ve sarı arka plan ile stillendirir */
+#firstPage {
+    color: #f00;
+    background: #ff0;
+}
 
+/* #secondPage id'li elementi mavi yazı ve açık gri arka plan ile stillendirir */
+#secondPage {
+    color: #00f;
+    background: #ddd;
+}
+
+/* .paragraph sınıfına sahip elementleri koyu gri yazı ve açık gri arka plan ile stillendirir */
+.paragraph {
+    color: #111;
+    background: #fafafa;
+}
+
+/* .onlyClass sınıfına sahip elementleri kahverengi yazı ve krem arka plan ile stillendirir */
 .onlyClass {
-    background: #fff7ed; 
     color: #92400e;
+    background: #fff7ed; 
 }
 
+/* #onlyId id'li elementi açık mor yazı ve koyu mor arka plan ile stillendirir */
 #onlyId {
-    background: #eef2ff;
-    color: #4c1d95;
+    color: #eef2ff;
+    background: #4c1d95;
 }
 
-
+/* Hem #combined id'sine hem de .onlyClass sınıfına sahip elementleri yeşil yazı ve açık mavi arka plan ile stillendirir */
 #combined.onlyClass {
-    background: #ecfeff;
     color: #065f46; 
+    background: #ecfeff;
 }

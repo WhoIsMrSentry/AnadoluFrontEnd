@@ -5,97 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
-    <style>
-        /* Ders 6 - position ve z-index
-           static, relative, absolute, fixed, sticky ve katmanlama (z-index) örnekleri
-        */
-        .kutu {
-            background-color: blueviolet;
-            padding: 10px;
-            border: 2px solid blue;
-            position: static;
-            /* position: static -> varsayılan konumlandırma, top/left çalışmaz */
-        }
-
-        .relative {
-            position: relative;
-            top: 30px;
-            left: 30px;
-            background-color: aqua;
-            /* Relative -> Kendi normal konumuna göre kaydırılır. */
-        }
-
-
-        .kapsayici {
-            position: relative;
-            background-color: lightgreen;
-            width: 300px;
-            height: 200px;
-            /* Absolute çocuklar için referans kutu (en yakın relative/absolute/fixed/ sticky ata) */
-        }
-
-        .icerik {
-            background-color: chocolate;
-            top: 30px;
-            left: 30px;
-            position: absolute;
-            padding: 20px;
-            /* Absolute -> En yakın konumlandırılmış (relative vb.) ata'ya göre konumlanır */
-        }
-
-        .sabit {
-            position: fixed;
-            top: 0px;
-            left: 0px;
-            background-color: darkblue;
-            color: white;
-            padding: 10px 20px;
-            width: 100%;
-            z-index: 1;
-            /* Fixed -> Ekrana sabitlenir (scroll'da yerinde kalır) */
-        }
-
-        .yapis {
-            position: sticky;
-            top: 0;
-            left: 0;
-            background-color: gold;
-            padding: 5px;
-            /* Sticky -> Scroll ile belirli bir eşiğe gelince yapışır */
-        }
-
-        .arka {
-            z-index: 2;
-            background-color: red;
-            width: 100px;
-            height: 100px;
-            position: absolute;
-            /* z-index: 2 -> Daha büyük z-index üstte görünür */
-        }
-
-        .on {
-            z-index: 1;
-            background-color: blue;
-            width: 100px;
-            height: 100px;
-            position: absolute;
-            /* z-index: 1 -> Daha düşük olduğu için kırmızının altında kalır */
-        }
-    </style>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body>
-    <!-- Static örnekleri -->
+
+    <!-- Static örnekleri: position: static varsayılan konumlandırma, top/left çalışmaz -->
     <div class="kutu">Static Konumlu Eleman</div>
     <div class="kutu">Normal</div>
-    <!-- Relative örneği: 30px aşağı/sağa kayar -->
+
+
+    <!-- Relative örneği: position: relative ile 30px aşağı ve sağa kayar -->
     <div class="kutu relative">Relative</div>
-    <!-- Absolute + Relative ebeveyn: absolute öğe .kapsayici'ye göre konumlanır -->
+
+
+    <!-- Absolute + Relative ebeveyn: .icerik absolute, .kapsayici relative olduğu için .icerik kutusu .kapsayici'ye göre konumlanır -->
     <div class="kapsayici">
         <div class="icerik">Absolute Kutu</div>
     </div>
-    <!-- Fixed menü: sayfa kayınca da yukarıda kalır -->
+
+
+    <!-- Fixed menü: position: fixed ile ekranın üstüne sabitlenir, sayfa kayınca da yukarıda kalır -->
     <div class="sabit">Sabit Menü</div>
     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. At deleniti natus esse odio, nesciunt aut nulla
         delectus maxime quo iste fugiat a in dolorem. Deleniti itaque quidem vero porro quae. Lorem ipsum, dolor sit
@@ -118,21 +48,23 @@
         delectus maxime quo iste fugiat a in dolorem. Deleniti itaque quidem vero porro quae.Lorem ipsum, dolor sit amet
         consectetur adipisicing elit. At deleniti natus esse odio, nesciunt aut nulla
         delectus maxime quo iste fugiat a in dolorem. Deleniti itaque quidem vero porro quae.</p>
-    <!-- Sticky başlık: bu başlık üst sınıra gelince yapışır -->
+
+    <!-- Sticky başlık: position: sticky ile bu başlık üst sınıra gelince yapışır (scroll ile) -->
     <h3 class="yapis">Yapışkan Başlık</h3>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium delectus odio quia, placeat ipsa rerum
         impedit eos modi voluptatibus nulla deserunt cumque sunt maiores? Vitae repudiandae exercitationem ex facere
         quisquam.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium delectus odio quia, placeat ipsa rerum
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium delectus odio quia, placeat ipsa rerum
         impedit eos modi voluptatibus nulla deserunt cumque sunt maiores? Vitae repudiandae exercitationem ex facere
         quisquam.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium delectus odio quia, placeat ipsa rerum
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium delectus odio quia, placeat ipsa rerum
         impedit eos modi voluptatibus nulla deserunt cumque sunt maiores? Vitae repudiandae exercitationem ex facere
         quisquam.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium delectus odio quia, placeat ipsa rerum
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium delectus odio quia, placeat ipsa rerum
         impedit eos modi voluptatibus nulla deserunt cumque sunt maiores? Vitae repudiandae exercitationem ex facere
         quisquam.</p>
-    <!-- z-index örneği: .arka(2) .on(1)'in üstünde görünür -->
+
+    <!-- z-index örneği: .arka (z-index:2) .on (z-index:1)'in üstünde görünür, katmanlama farkı gösterilir -->
     <div class="arka"></div>
     <div class="on"></div>
 

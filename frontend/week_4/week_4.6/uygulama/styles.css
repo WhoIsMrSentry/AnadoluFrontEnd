@@ -1,48 +1,52 @@
+/* Sayfanın genel arka plan rengini ve yazı rengini ayarlar */
 .background {
-    background-color: #0066cc;
-    color: white;
+    background-color: #0066cc; /* Mavi arka plan */
+    color: white; /* Beyaz yazı rengi */
 }
 
+/* .font: Paragrafa Times New Roman fontu ve orta boyut verir */
 .font {
-    font-family: 'times new roman', times, serif;
+    font-family: 'Times New Roman', Times, serif;
     font-size: 22px;
-
 }
 
+/* .font2: Yeşil arka plan, beyaz yazı, küçük boyut ve farklı font */
 .font2 {
-
     background-color: #28a745;
     color: white;
     font-size: 18px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-
 }
 
+/* .title: Başlık için kırmızı yazı ve açık sarı arka plan */
 .title {
     color: #dc3545;
     background-color: #fff9c4;
 }
 
+/* .box: Koyu arka plan, açık yazı rengi, Courier fontu ve küçük boyut */
 .box {
     background-color: #2c3e50;
     color: #ecf0f1;
     font-family: 'Courier New', Courier, monospace;
-    font: size 16px;
-
+    font-size: 16px;
 }
 
+/* .p1: Açık pembe arka plan, mor yazı ve orta boyut */
 .p1 {
     background-color: #ffe6f0;
     color: #8e44ad;
     font-size: 20px;
 }
 
+/* .p2: Turuncu arka plan, beyaz yazı ve orta boyut */
 .p2 {
     background-color: #ff9800;
     color: white;
     font-size: 20px;
 }
 
+/* .site: Açık gri arka plan, koyu yazı, büyük boyut ve serif font */
 .site {
     background-color: #f8f9fa;
     color: #343a40;
@@ -50,12 +54,14 @@
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+/* .description: Açıklama metni için koyu yazı, küçük boyut ve sade font */
 .description {
     color: #343a40;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
 }
 
+/* .h2: Başlık için mavi arka plan, beyaz yazı, büyük boyut ve iç boşluk */
 .h2 {
     background-color:#17a2b8;
     color:#fff;
@@ -64,32 +70,38 @@
     padding:8px 12px;
 }
 
+/* .ul: Liste için koyu yazı, orta boyut, modern font ve iç boşluk */
 .ul {
     color:#495057;
     font-size:16px;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     list-style:disc;
-    padding-left:20px;margin:8px 0 0;   
+    padding-left:20px;
+    margin:8px 0 0;   
 }
 
+/* .span1: Kırmızı arka plan, beyaz yazı, etiket görünümü */
 .span1 {
     background-color:#e74c3c;
     color:#fff;
     font-size:18px;
 }
 
+/* .span2: Yeşil arka plan, beyaz yazı, etiket görünümü */
 .span2 {
     background-color:#27ae60;
     color:#fff;
     font-size:18px;
 }
 
+/* .span3: Mavi arka plan, beyaz yazı, etiket görünümü */
 .span3 {
     background-color:#3498db;
     color:#fff;
     font-size:18px;
 }
 
+/* .maintitle: Ana başlık için koyu arka plan, beyaz yazı, büyük boyut ve serif font */
 .maintitle {
     background-color:#34495e;
     color: white;
@@ -97,19 +109,19 @@
     font-family: 'Times New Roman', Times, serif;
 }
 
+/* .downtitle: Alt başlık için koyu arka plan, açık gri yazı, orta boyut ve serif font */
 .downtitle {
     background-color:#34495e;
-    color: bdc3c7;
+    color: #bdc3c7;
     font-size:20px;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+/* .paragraph: Paragraf kutusu için koyu arka plan, turkuaz yazı, küçük boyut ve sade font */
 .paragraph {
     background-color:#34495e;
     color: #1abc9c;
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
-
-
 }
 

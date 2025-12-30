@@ -1,0 +1,90 @@
+
+/* Ders 6 - position ve z-index static, relative, absolute, fixed, sticky ve katmanlama (z-index) örnekleri */
+
+/* .kutu: Varsayılan (static) konumlandırılmış kutu örneği */
+.kutu {
+    background-color: blueviolet; /* Kutu rengi */
+    padding: 10px; /* İç boşluk */
+    border: 2px solid blue; /* Kenarlık */
+    position: static; /* Varsayılan konumlandırma, top/left çalışmaz */
+    /* position: static -> Eleman normal akışta, konumlandırma özellikleri etkisiz */
+}
+
+
+/* .relative: Relative konumlandırılmış kutu örneği */
+.relative {
+    position: relative; /* Kendi normal konumuna göre kayar */
+    top: 30px; /* 30px aşağı */
+    left: 30px; /* 30px sağa */
+    background-color: aqua; /* Farklı arka plan rengi */
+    /* Relative -> Kendi normal konumuna göre kaydırılır. */
+}
+
+
+
+/* .kapsayici: Absolute çocuklar için referans kutu (en yakın relative/absolute/fixed/sticky ata) */
+.kapsayici {
+    position: relative; /* İçindeki absolute elemanlar buna göre konumlanır */
+    background-color: lightgreen; /* Kapsayıcı kutu rengi */
+    width: 300px; /* Genişlik */
+    height: 200px; /* Yükseklik */
+    /* Absolute çocuklar için referans kutu */
+}
+
+
+/* .icerik: Absolute konumlandırılmış kutu örneği */
+.icerik {
+    background-color: chocolate; /* Kutu rengi */
+    top: 30px; /* 30px aşağı */
+    left: 30px; /* 30px sağa */
+    position: absolute; /* En yakın konumlandırılmış ata'ya göre konumlanır */
+    padding: 20px; /* İç boşluk */
+    /* Absolute -> En yakın konumlandırılmış (relative vb.) ata'ya göre konumlanır */
+}
+
+
+/* .sabit: Fixed (sabit) konumlandırılmış menü örneği */
+.sabit {
+    position: fixed; /* Ekrana sabitlenir, scroll ile yerinde kalır */
+    top: 0px; /* Üstten 0 */
+    left: 0px; /* Soldan 0 */
+    background-color: darkblue; /* Arka plan rengi */
+    color: white; /* Yazı rengi */
+    padding: 10px 20px; /* İç boşluk */
+    width: 100%; /* Tam genişlik */
+    z-index: 1; /* Katman sırası */
+    /* Fixed -> Ekrana sabitlenir (scroll'da yerinde kalır) */
+}
+
+
+/* .yapis: Sticky (yapışkan) başlık örneği */
+.yapis {
+    position: sticky; /* Scroll ile belirli bir eşiğe gelince yapışır */
+    top: 0; /* Üst sınırda yapışır */
+    left: 0; /* Soldan hizalı */
+    background-color: gold; /* Arka plan rengi */
+    padding: 5px; /* İç boşluk */
+    /* Sticky -> Scroll ile belirli bir eşiğe gelince yapışır */
+}
+
+
+/* .arka: Z-index örneği, üstte görünen kutu */
+.arka {
+    z-index: 2; /* Daha büyük z-index üstte görünür */
+    background-color: red; /* Kutu rengi */
+    width: 100px; /* Genişlik */
+    height: 100px; /* Yükseklik */
+    position: absolute; /* Konumlandırma */
+    /* z-index: 2 -> Daha büyük z-index üstte görünür */
+}
+
+
+/* .on: Z-index örneği, altta kalan kutu */
+.on {
+    z-index: 1; /* Daha düşük olduğu için kırmızının altında kalır */
+    background-color: blue; /* Kutu rengi */
+    width: 150px; /* Genişlik */
+    height: 150px; /* Yükseklik */
+    position: absolute; /* Konumlandırma */
+    /* z-index: 1 -> Daha düşük olduğu için kırmızının altında kalır */
+}

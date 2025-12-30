@@ -1,30 +1,25 @@
-/* MR ROBOT fontunu projeye dahil etme */
-@font-face {
-    font-family: 'MR ROBOT';
-    src: url('../fonts/MR ROBOT.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+/* Bu dosya, index.html dosyasındaki elementlerin görünümünü ve düzenini belirler */
 
-/* Paragraflarda kullan */
+/* Tüm p etiketleri için temel font, boyut ve hizalama ayarlanır */
 p {
-    font-family: 'MR ROBOT', Arial, Helvetica, sans-serif;
-    font-size: 48px;      /* temel boyut */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 48px;      /* Temel paragraf boyutu */
     text-align: center;
-
 }
 
-
+/* Kırmızı gölge efekti vermek için kullanılabilir */
 .red-text-shadow {
-  text-shadow: red 0 -10px;
+    text-shadow: 8px 8px 5px red; /* Kırmızı gölge */
 }
 
+/* Öğrenci ismi başlığı için arka plan ve yazı rengi */
 .isim-soyisim {
   background-color: pink;
   color: blue;
+  text-align: center;
 }
 
+/* Ders adı başlığı için arka plan, font özellikleri ve gölge */
 .ders {
   background-color: purple;
   font-size: 18px;
@@ -34,26 +29,28 @@ p {
   text-shadow: 3px 0px rgb(0, 255, 115);
 }
 
+/* İlk paragraf: italik, küçük boyut, Courier fontu ve büyük harf */
 .paragraf1 {
   font-style : italic;
   font-size : 20px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Courier New', Courier, monospace;
   text-transform: uppercase;
 }
 
+/* İkinci paragraf: farklı font, büyük boyut ve küçük harf */
 .paragraf2 {
-  font-display: center;
+  font-display: center; /* Hatalı bir özellik, etkisi yoktur */
   font-size : 32px;
   font-family: 'Times New Roman', Times, serif;
   text-transform: lowercase;
 }
 
+/* Sayfa arka planı için renk ve resim ayarları */
 .background {
-  /* Fallback color */
+  /* Yedek arka plan rengi */
   background-color: rgb(0, 255, 242);
-  /* Background image (adjust the path/file name as needed) */
+  /* Arka plan resmi */
   background-image: url('../img/background.png');
   background-repeat: no-repeat;
   background-size: cover;
-  
 }

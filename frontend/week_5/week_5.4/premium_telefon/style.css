@@ -1,74 +1,75 @@
+/* Tüm elementlerin varsayılan dış boşluğunu sıfırlar, kutu hizalamasını kolaylaştırır */
 * {
     margin: 0;
+    background-color: #f0f0f0;
 }
 
 
+/* Ana kapsayıcı: Kartın genişliği, yüksekliği, kenar yumuşaklığı ve ortalanması */
 #main-container {
-    width: 400px;
- 
-    /* ana divin genişliği burası */
-   height: 600px;
-
-   border-radius: 10px;
-
-  border: 1px solid wheat;
-
-    margin: auto;
-    /*burdaki auto ana divi ortalamak için kullanılıyor bir adet width verip marginine auto verir isek nesne ortalanır */
+    width: 400px; /* Kart genişliği */
+    height: 600px; /* Kart yüksekliği */
+    border-radius: 10px; /* Köşeleri yumuşatır */
+    border: 5px solid wheat; /* Açık renkli kenarlık */
+    margin: auto; /* Ortalamak için */
+    /* width + margin: auto ile ortalanır */
 }
 
 
+/* Üst bölüm: Gradient arka plan, köşe yumuşatma */
 #upper-div {
-    background: linear-gradient(to right bottom, #c6a7ff, #8a2be2);
-
-    /*hocanın bahsettiği gradient yapısı sağ aşağı doğru renk geçişi oluşmasını sağlar kullanımı bu şekildir*/
-
+    background: linear-gradient(135deg, #eb7f03, #560a9c); /* Sağ aşağıya doğru renk geçişi */
     width: 100%;
-
-
     height: 200px;
-    border-radius: 0px 0px 10px 10px;
-    /*kenarlarını yumuşatmak için kullandık */
+    border-radius: 10px 10px 10px 10px; /* Tüm köşeler yumuşak */
 }
 
+/* Detaylar bölümü: Başlıklar ve açıklama için iç boşluk ve köşe yumuşatma */
 #details-div {
-    width: 100%; /* Div'in genişliğini kapsayıcı (ana) div'in tamamına yayar. 
-    Bu, div'in sağa doğru uzamasını ve esnek olmasını sağlar. */
+    width: 100%; /* Kapsayıcıya tam yayılır */
     height: 250px;
-    padding: 20px; /*divin içeriği ile kenarları arasında 20px boşluk bırakır*/
-    border-radius: 10px 10px 0px 0px; 
+    padding: 20px; /* İçerik ile kenar arası boşluk */
+    border-radius: 10px 10px 0px 0px; /* Üst köşeler yumuşak */
+    box-sizing: border-box; /* Padding ve border genişliğe dahil edilir, taşma engellenir */
+    overflow: hidden; /* Taşan içerik gizlenir */
 }
 
+/* Alt bölüm: Fiyat ve butonun ortalanması için flexbox kullanılır */
 #footer-div {
     width: 100%; 
     display: flex;
-    justify-content: center;
-    align-items: center;  /*buton ve fiyat yazısını ortalamak için flex yapısını kullandık justify content yatayda align items dikeyde ortaladı */
+    justify-content: center; /* Yatayda ortala */
+    align-items: center;     /* Dikeyde ortala */
 }
 
+/* Elektronik başlığı: İç boşluk ve renk */
 #elektronik-div {
-    padding: 20px;  /*yazılar ortaya gelsin diye 20px  her kenardan iç boşluk verdik 3üne de */
-    color: pink;
+    padding: 20px;  /* İç boşluk */
+    color: darkviolet; /* Yazı rengi */
+    font-size: 20px;
 }
 
+/* Ürün başlığı: İç boşluk */
 #ikincibaslik {
     padding: 20px;
 }
 
+/* Açıklama paragrafı: İç boşluk */
 #paragrafid {
     padding: 20px;
 }
 
 
 
+/* Fiyat etiketi: Kalın, büyük ve kırmızı yazı */
 #fiyatlandırma {
     font-weight: 700;
     font-size: large;
-
     text-align: left;
-    color: red;
+    color: #b6092b;
 }
 
+/* Satın al butonu: Mor arka plan, beyaz yazı, köşe yumuşatma ve soldan boşluk */
 #button1 {
     background-color: #8a2be2;
     color: white;
@@ -78,5 +79,5 @@
     font-size: 13px;
     font-weight: 500;
     text-decoration: none;
-        margin-left: 30px; /* buton ile fiyat etiketinin arasında boşluk bırakmak için soldan 30px boşluk bıraktık */
+    margin-left: 30px; /* Fiyat ile buton arası boşluk */
 }

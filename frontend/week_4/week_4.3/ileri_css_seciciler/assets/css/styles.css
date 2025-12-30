@@ -1,17 +1,24 @@
-ul > li > a {
-    color: darkgoldenrod;
-
+/* Arka plan rengini mor yapar */
+html{
+    background-color: purple; 
 }
 
-.komsu+p {
+/* Sadece bir ul'nin doğrudan çocuğu olan li'nin içindeki a etiketlerini seçer */
+ul > li > a {
+    color: darkgoldenrod;
+}
+
+/* .komsu sınıfına sahip bir elementten hemen sonra gelen p etiketini seçer */
+.komsu + p {
     background-color: green;
 }   
 
+/* .firstDiv sınıfına sahip elementi stillendirir */
 .firstDiv {
-background-color: lightblue;
-background-image: url();
-background-repeat: no-repeat;
-background-position: right;
-width: 400px;
-height: 400px;
+    background-color: lightblue; /* Arka plan rengi */
+    background-image: url(); /* Arka plan resmi (şu anda boş) */
+    background-repeat: no-repeat; /* Arka plan resmi tekrar etmesin */
+    background-position: right; /* Arka plan resmi sağda konumlansın */
+    width: 400px; /* Genişlik */
+    height: 400px; /* Yükseklik */
 }

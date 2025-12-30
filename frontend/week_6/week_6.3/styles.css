@@ -1,0 +1,40 @@
+/* Ders 6 - Listeler ve basit navbar ul/ol temel kullanımı, list-style özelleştirme ve yatay menü örneği */
+.custom-list {
+    list-style-type: square;
+    /* Kare madde işareti */
+}
+
+.custom-list li {
+    background-color: turquoise;
+    margin: 5px 0px;
+    padding: 10px;
+    border-radius: 5px;
+    list-style-position: outside;
+    /* list-style-position: outside -> madde işareti kutu dışında */
+}
+
+ul.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+    /* Liste işaretlerini kaldırıp arka plan veriyoruz */
+}
+
+ul.navbar li {
+    display: inline-block;
+    /* Yatay menü için her li yan yana */
+}
+
+ul.navbar li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    /* Linki blok yapınca padding tüm alanı kaplar (tıklama alanı genişler) */
+}
+
+ul.navbar li a:hover {
+    background-color: red;
+    /* Üzerine gelince arka plan rengi */
+}

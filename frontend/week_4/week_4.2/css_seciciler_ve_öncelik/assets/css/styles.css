@@ -1,3 +1,35 @@
+/* 
+    Bu CSS dosyasında çeşitli seçiciler ve öncelik kuralları uygulanmıştır:
+
+    1. h1, h2, h3, h4, h5, h6:
+         - Tüm başlık etiketlerinin (h1-h6) metin rengi #88001b olarak ayarlanır.
+
+    2. * (evrensel seçici):
+         - Sayfadaki tüm elementlerin arka plan rengi aqua olarak ayarlanır.
+         - Ancak, daha spesifik seçiciler (örneğin html, p, p.bgtext) bu arka plan rengini geçersiz kılabilir.
+
+    3. html:
+         - HTML kök elementinin arka plan rengi blueviolet olarak ayarlanır.
+         - Bu, yalnızca html elementinin arka planını etkiler, diğer elementlerin arka planı daha spesifik kurallarla değiştirilebilir.
+
+    4. p:
+         - Tüm paragraf (p) etiketlerinin arka plan rengi brown olarak ayarlanır.
+         - Ancak, daha spesifik seçiciler (örneğin p.bgtext veya p#textid) bu kuralı geçersiz kılabilir.
+
+    5. p.bgtext:
+         - Sınıfı "bgtext" olan p etiketlerinin arka plan rengi yellow olarak ayarlanır.
+         - Bu kural, p etiketi için tanımlanan genel arka plan rengini (brown) geçersiz kılar.
+
+    6. p#textid:
+         - id'si "textid" olan p etiketlerinin metin rengi kırmızı (red) olarak ayarlanır.
+         - Bu kural, p etiketi için tanımlanan genel metin rengini (yoksa) veya başka bir kuralı geçersiz kılar.
+
+    Öncelik Açıklamaları:
+    - Evrensel seçici (*) en düşük önceliğe sahiptir, daha spesifik seçiciler (ör. p, p.bgtext, p#textid) onu geçersiz kılar.
+    - Sınıf seçicisi (.bgtext) ve id seçicisi (#textid), tip seçicisine (p) göre daha yüksek önceliğe sahiptir.
+    - Aynı elemente birden fazla kural uygulanıyorsa, en spesifik ve en son yazılan kural geçerli olur.
+*/
+
 h1 , h2, h3, h4, h5, h6 {
      color: #88001b;
 }

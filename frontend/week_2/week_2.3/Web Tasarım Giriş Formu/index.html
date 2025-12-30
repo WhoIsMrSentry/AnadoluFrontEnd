@@ -11,6 +11,23 @@
     <!-- NOT: <center> etiketi eski (deprecated). Modern uygulamada CSS ile merkezleme yapılır. -->
     <center>
         <!-- Başlık Bölümü -->
+        <!--
+            Bu bölümde kullanılan <div> ve <span> etiketleri HTML'de farklı amaçlara hizmet eder:
+
+            <div> etiketi:
+                - Blok düzeyinde (block-level) bir kapsayıcıdır.
+                - İçerdiği tüm öğeleri yeni bir satırda başlatır ve tüm satırı kaplar.
+                - Genellikle sayfa düzeni oluşturmak ve bölümleri gruplamak için kullanılır.
+
+            <span> etiketi:
+                - Satır içi (inline) bir kapsayıcıdır.
+                - Sadece kapsadığı içerik kadar yer kaplar, yeni satır başlatmaz.
+                - Genellikle metin içinde küçük bir kısmı biçimlendirmek veya işaretlemek için kullanılır.
+
+            Farkları:
+                - <div> blok düzeyinde, <span> ise satır içi bir elemandır.
+                - <div> ile büyük yapısal bölümler oluşturulurken, <span> ile metin içinde küçük alanlar seçilir.
+        -->
         <div>
             Merhaba <span>Dünya</span> <b>Nasılsın</b>
             <br><br>
@@ -47,7 +64,22 @@
             <br><br>
 
             <button type="submit">Giriş Yap</button>
+            <button type="reset">Sıfırla</button>
 
+            <!--
+                Bu bölümde iki farklı grup halinde form elemanları bulunmaktadır: radio buttonlar (tek seçim) ve checkboxlar (çoklu seçim).
+
+                1. id ve name farkı:
+                     - "id" (identifier), her bir input elemanını benzersiz şekilde tanımlar ve <label> etiketi ile ilişkilendirilmesini sağlar. 
+                         Örneğin: <input id="team1_radio"> ile <label for="team1_radio"> eşleşir.
+                     - "name" ise form gönderildiğinde hangi inputların aynı gruba ait olduğunu belirtir. 
+                         Aynı "name" değerine sahip radio buttonlardan sadece biri seçilebilir. Checkboxlarda ise her biri farklı "name" ile tanımlanırsa, her biri bağımsız olarak seçilebilir.
+
+                2. Burada neden böyle kullanıldı?
+                     - Radio buttonlarda tüm seçenekler aynı "name" değerine ("team_radio") sahip. Böylece kullanıcı sadece birini seçebilir.
+                     - Checkboxlarda ise her bir kutunun "name" değeri farklı ("team_checkbox1", "team_checkbox2", "team_checkbox3"). Böylece kullanıcı isterse birden fazlasını seçebilir ve form gönderildiğinde hangi kutuların seçildiği ayrı ayrı anlaşılır.
+                     - Her inputun "id" değeri benzersizdir ve ilgili <label> ile eşleştirilmiştir. Bu, erişilebilirlik ve kullanıcı deneyimi için önemlidir.
+            -->
             <br><br>
             <!-- Radio Button Grup -->
             <h3>Hangi Takımlısın (Tek Seçim)</h3>
@@ -140,7 +172,7 @@
 
             <label for="favcolor">Favori Renk:</label>
             <!-- type="color": Renk seçici açar; değeri #RRGGBB formatında gönderir. -->
-            <input type="color" name="favcolor" id="favcolor">
+            <input type="color" name="favcolor" id="favcolor" value="#88001b">
             <br><br>
 
             <label for="website">Web Sitesi:</label>
@@ -175,13 +207,23 @@
 
             <label for="volume">Ses Seviyesi:</label>
             <!-- type="range": Kaydırma çubuğu; min/max ve value başlangıç değerini belirler. -->
-            <input type="range" name="volume" id="volume" min="0" max="100" value="50">
+            <input type="range" name="volume" id="volume" min="0" max="100" value="75">
             <br><br>
 
             <label for="image">Görsel Submit:</label>
-            <!-- type="image": Tıklanınca formu gönderir; x,y koordinatları da gönderilir. -->
-            <input type="image" src="https://www.freeiconspng.com/uploads/html5-logo-png-21.png" 
-                   alt="Submit" width="48" height="48">
+            <!-- 
+                type="image": 
+                - Bu input tipi, bir görseli (resmi) buton gibi kullanmanızı sağlar.
+                - Kullanıcı görsele tıkladığında form gönderilir.
+                - Normal submit butonundan farkı, tıklanan noktanın x ve y koordinatlarını da form ile birlikte gönderir.
+                - Genellikle görsel ile özelleştirilmiş gönderme butonu yapmak için kullanılır.
+            -->
+            <input type="image" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" 
+            alt="Submit" width="48" height="48" >
+            <br><br>
+
+            <h2>Görsele dokununarak formu gönderebilirsiniz.</h2>
+                   
         </form>
     </center>
 </body>
