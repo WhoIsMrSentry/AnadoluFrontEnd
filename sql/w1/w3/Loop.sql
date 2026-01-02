@@ -1,37 +1,94 @@
 ﻿/*
-Döngü
+Döngü (WHILE) örnekleri - Açıklamalı ve değişken isimleri anlaşılır
+Bu dosya, hiç SQL bilmeyenlerin de takip edebilmesi için
+her örneği adım adım açıklar. Her blokta kısa amaç, değişkenlerin
+anlamı ve ne yapıldığı yazılıdır.
 */
 
--- Bu derste öğreneceklerimiz (bu dosyadaki konular):
--- - Döngü: WHILE
--- - Sayaç mantığı: SET ile artırma/azaltma
--- - Çıktı: PRINT
--- - Matematik: SQRT(), % (mod), çarpma
--- - Koşullu yazdırma: CASE
--- Bu dosya; WHILE döngüsü ile sayaç/faktöriyel/fibonacci/asal kontrol örnekleri içerir.
+-- 1) 1–10 yazdırma
+-- Amaç: WHILE döngüsünün temel kullanımı. Sayaç değişkeniyle ilerler.
+-- @counter: döngü sayaç değişkeni
+DECLARE @counter INT = 1;
+WHILE @counter <= 10
+BEGIN
+	-- Mevcut değeri yazdır
+	PRINT @counter;
+	-- Sayacı 1 artır
+	SET @counter += 1;
+END;
 
--- 1–10 yazdırma
--- WHILE: Koşul TRUE oldukça döngü çalışır.
-DECLARE @i INT = 1;
-WHILE @i <= 10 BEGIN PRINT @i; SET @i += 1; END;
 
--- Faktöriyel hesaplama
--- BIGINT: INT'ten daha büyük değer aralığı (taşma ihtimalini azaltır).
-DECLARE @num INT = 7, @ix INT = 1, @fact BIGINT = 1;
-WHILE @ix <= @num BEGIN SET @fact *= @ix; SET @ix += 1; END;
-PRINT @fact;
+-- 2) Faktöriyel hesaplama (örn. 7!)
+-- Amaç: döngü ile çarpma işlemini tekrar ederek faktöriyeli hesaplamak.
+-- @targetNumber: faktöriyeli alınacak sayı
+-- @index: döngü sayacı (1'den başlar)
+-- @factorial: sonuç değerini tutar (BIGINT taşma riskini azaltır)
+DECLARE @targetNumber INT = 7;
+DECLARE @index INT = 1;
+DECLARE @factorial BIGINT = 1;
+WHILE @index <= @targetNumber
+BEGIN
+	-- factorial = factorial * index
+	SET @factorial *= @index;
+	SET @index += 1;
+END;
+-- Faktöriyel sonucu yazdır
+PRINT @factorial;
 
--- Fibonacci
--- Geçici değişken (@t) ile bir sonraki terim hesaplanır.
-DECLARE @a1 INT = 0, @a2 INT = 1, @t INT, @c INT = 1;
-WHILE @c <= 10 BEGIN PRINT @a1; SET @t = @a1 + @a2; SET @a1 = @a2; SET @a2 = @t; SET @c += 1; END;
 
--- Asal kontrol
--- SQRT(@x): Karekök. Asal testinde bölenleri 2..sqrt(n) aralığında kontrol etmek yeterlidir.
-DECLARE @x INT = 29, @k INT = 2, @isPrime BIT = 1;
-WHILE @k <= SQRT(@x) BEGIN IF @x % @k = 0 SET @isPrime = 0; SET @k += 1; END;
-PRINT CASE WHEN @isPrime = 1 THEN 'Asal' ELSE 'Değil' END;
+-- 3) Fibonacci dizisi (ilk 10 terim)
+-- Amaç: her adımda bir sonraki terimi hesaplayıp yazdırmak
+-- @prev: önceki terim, @curr: mevcut terim, @next: geçici hesaplama
+-- @count: kaç terim yazdırıldığını sayar
+DECLARE @prev INT = 0;
+DECLARE @curr INT = 1;
+DECLARE @next INT;
+DECLARE @count INT = 1;
+WHILE @count <= 10
+BEGIN
+	-- Mevcut terimi yazdır
+	PRINT @prev;
+	-- Sonraki terimi hesapla ve yer değiştir
+	SET @next = @prev + @curr;
+	SET @prev = @curr;
+	SET @curr = @next;
+	SET @count += 1;
+END;
 
--- Geri sayım
-DECLARE @g INT = 10;
-WHILE @g > 0 BEGIN PRINT @g; SET @g -= 1; END;
+
+-- 4) Asal kontrol
+-- Amaç: @n sayısının asal olup olmadığını kontrol etmek
+-- Yöntem: 2'den sqrt(n)'e kadar bölen aramak yeterlidir
+-- @n: kontrol edilecek sayı, @divisor: şu anki bölen denemesi
+-- @isPrimeFlag: sonuç bayrağı (1 = asal, 0 = asal değil)
+DECLARE @n INT = 29; -- kontrol edilecek sayı
+DECLARE @divisor INT = 2; -- bölen adayı
+DECLARE @isPrimeFlag BIT = 1; -- başlangıçta asal kabul et
+WHILE @divisor <= SQRT(@n)
+BEGIN
+	-- WHILE döngüsü burada çalışırken her seferinde @divisor değerini
+	-- @n sayısına böleriz. Eğer kalan 0 ise tam bölünme vardır.
+	IF @n % @divisor = 0
+	BEGIN
+		-- Tam bölünme bulundu: @n, @divisor ile bölünebiliyor.
+		-- Bu durumda @n asaldır varsayımı bozulur, flag 0 yapılır.
+		SET @isPrimeFlag = 0;
+		-- Artık daha küçük bölen aramaya gerek yok; döngüyü kırıyoruz.
+		BREAK; -- döngüyü hemen sonlandırır, sonraki satırlara gitmez
+	END;
+
+	-- Eğer burada reached ise o bölen işe yaramadı; sonraki böleni dene.
+	-- @divisor 1 arttırılır ve WHILE koşulu tekrar kontrol edilir.
+	SET @divisor += 1;
+END;
+PRINT CASE WHEN @isPrimeFlag = 1 THEN 'Asal' ELSE 'Değil' END;
+
+
+-- 5) Geri sayım örneği
+-- Amaç: basit bir azalan sayaç örneği
+DECLARE @countdown INT = 10;
+WHILE @countdown > 0
+BEGIN
+	PRINT @countdown;
+	SET @countdown -= 1;
+END;

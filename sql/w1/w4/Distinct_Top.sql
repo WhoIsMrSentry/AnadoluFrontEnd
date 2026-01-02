@@ -101,109 +101,173 @@ GO
 
 
 
--- Tüm öğrencileri listele 
-SELECT * FROM dbo.Students;
+
+-- ==================================================
+-- Açıklama (1): Tüm öğrencileri listeleme
+-- - Amaç: Students tablosundaki tüm satır ve sütunları görmek.
+-- - Not: Eğitim amacıyla * kullanıyoruz; gerçek projelerde genelde gerekli sütunlar seçilir.
+-- ==================================================
+SELECT *
+FROM dbo.Students;
 GO
 
--- DISTINCT ile farklı şehirleri listele
--- DISTINCT: Aynı değerden tek kez döndürür (tekrarlı City değerlerini tekilleştirir).
-SELECT DISTINCT City FROM dbo.Students;
+-- ==================================================
+-- Açıklama (2): DISTINCT ile farklı şehirleri listeleme
+-- - DISTINCT: Aynı değerden sadece 1 tane döndürür (tekrarları tekilleştirir).
+-- - City NULL ise, NULL da tek bir değer olarak 1 kez dönebilir.
+-- ==================================================
+SELECT DISTINCT City
+FROM dbo.Students;
 GO
 
--- DISTINCT ile farklı ders kategorilerini listele
-SELECT DISTINCT Category FROM dbo.Courses;
+-- ==================================================
+-- Açıklama (3): DISTINCT ile farklı ders kategorilerini listeleme
+-- - Courses tablosundaki Category alanında hangi kategori değerleri var?
+-- ==================================================
+SELECT DISTINCT Category
+FROM dbo.Courses;
 GO
 
--- DISTINCT ile 'Sayısal' kategorisindeki derslerin isimleri
+-- ==================================================
+-- Açıklama (4): Belirli bir koşul sonrası DISTINCT
+-- - WHERE önce satırları filtreler (Category = 'Sayısal').
+-- - Sonra DISTINCT, kalan satırlarda CourseName tekrarlarını tekilleştirir.
+-- ==================================================
 SELECT DISTINCT CourseName
 FROM dbo.Courses
 WHERE Category = 'Sayısal';
 GO
 
--- DISTINCT ile öğrencilerin okudukları dönemleri listele
+-- ==================================================
+-- Açıklama (5): DISTINCT ile öğrencilerin okudukları dönemleri (Semester) listeleme
+-- - Enrollments tablosu “hangi öğrenci hangi dersi hangi dönemde aldı?” bilgisini tutar.
+-- ==================================================
 SELECT DISTINCT Semester
 FROM dbo.Enrollments;
 GO
 
--- TOP ile ilk öğrenciyi bul ve adını göster
--- TOP n: Sonuç setinden ilk n satırı döndürür.
--- ORDER BY olmadan TOP "ilk" kavramı deterministik değildir; burada ORDER BY ile netleşir.
+-- ==================================================
+-- Açıklama (6): TOP + ORDER BY ile “ilk” kaydı deterministik almak
+-- - TOP 1: Sonuçtan 1 satır getir.
+-- - ORDER BY StudentID ASC: En küçük StudentID “ilk” kabul edilir.
+-- - ORDER BY olmazsa “ilk” kavramı garanti değildir.
+-- ==================================================
 SELECT TOP 1 FirstName, LastName
 FROM dbo.Students
 ORDER BY StudentID ASC;
 GO
 
--- TOP ile son öğrenciyi bul 
+-- ==================================================
+-- Açıklama (7): TOP + ORDER BY ile “son” kaydı almak
+-- - ORDER BY StudentID DESC: En büyük StudentID “son” kabul edilir.
+-- ==================================================
 SELECT TOP 1 *
 FROM dbo.Students
 ORDER BY StudentID DESC;
 GO
 
--- En yüksek notlu ilk 5 öğrenciyi getir (TOP + ORDER BY)
-SELECT TOP 5 * 
+-- ==================================================
+-- Açıklama (8): En yüksek notlu ilk 5 öğrenci
+-- - TOP 5: En üstteki 5 satır.
+-- - ORDER BY Grade DESC: Notu yüksek olanlar önce gelir.
+-- ==================================================
+SELECT TOP 5 *
 FROM dbo.Students
 ORDER BY Grade DESC;
 GO
 
--- Veritabanı dersinde en yüksek puanı alan ilk 3 öğrenciyi getir
-SELECT TOP 3 s.FirstName, s.LastName, e.Score
-FROM dbo.Enrollments e
-INNER JOIN dbo.Students s ON s.StudentID = e.StudentID
-WHERE e.CourseID = 1
-ORDER BY e.Score DESC;
+-- ==================================================
+-- Açıklama (9): INNER JOIN ile iki tabloyu birleştirme + TOP
+-- - Amaç: CourseID=1 (Veritabanı) dersinde en yüksek puanı alan ilk 3 öğrenciyi bulmak.
+-- - FROM Enrollments: Puan (Score) bilgisi burada olduğu için “başlangıç” tablo olarak mantıklı.
+-- - INNER JOIN Students: StudentID üzerinden isim-soyisim almak için.
+-- - WHERE: Sadece ilgili ders.
+-- - ORDER BY Score DESC: En yüksek puanlar üstte.
+-- ==================================================
+SELECT TOP 3 stu.FirstName, stu.LastName, enr.Score
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Students  AS stu ON stu.StudentID = enr.StudentID
+WHERE enr.CourseID = 1
+ORDER BY enr.Score DESC;
 GO
 
--- TOP ile son eklenen 5 kayıt (EnrollmentID'ye göre)
+-- ==================================================
+-- Açıklama (10): Enrollments tablosunda “son eklenen” 5 kayıt
+-- - EnrollmentID IDENTITY olduğu için genelde son eklenen kayıtlar en büyük ID’ye sahiptir.
+-- ==================================================
 SELECT TOP 5 *
 FROM dbo.Enrollments
 ORDER BY EnrollmentID DESC;
 GO
 
-
--- İstanbul'da okuyan öğrencileri notlarına göre azalan sırala, ilk 3'ünü göster
+-- ==================================================
+-- Açıklama (11): Şehir + sıralama + TOP
+-- - WHERE City='İstanbul': Önce İstanbul satırlarını filtreler.
+-- - ORDER BY Grade DESC: Notu yüksek olanlar üstte.
+-- - TOP 3: İlk 3 satır.
+-- ==================================================
 SELECT TOP 3 *
 FROM dbo.Students
 WHERE City = 'İstanbul'
 ORDER BY Grade DESC;
 GO
 
--- Notu 80 üzeri olan öğrencilerin farklı şehirlerini listele
+-- ==================================================
+-- Açıklama (12): Filtrelenmiş veride DISTINCT
+-- - Notu 80 ve üzeri olan öğrencilerin şehirlerini tekilleştir.
+-- ==================================================
 SELECT DISTINCT City
 FROM dbo.Students
 WHERE Grade >= 80;
 GO
 
--- En çok seçilen (Enrollments sayısı fazla olan) derslerden ilk 2 tanesini getir
--- COUNT(*): satır sayısı. GROUP BY ile ders bazında sayılır.
-SELECT TOP 2 c.CourseName, COUNT(*) AS KayitSayisi
-FROM dbo.Enrollments e
-INNER JOIN dbo.Courses c ON e.CourseID = c.CourseID
-GROUP BY c.CourseName
+-- ==================================================
+-- Açıklama (13): GROUP BY + COUNT + TOP
+-- - Amaç: En çok seçilen dersleri bulmak (kayıt sayısı en yüksek dersler).
+-- - COUNT(*): Her grup içindeki satır sayısı.
+-- - GROUP BY CourseName: Ders adına göre gruplar.
+-- - ORDER BY COUNT(*) DESC: En büyük sayılar üstte.
+-- ==================================================
+SELECT TOP 2 crs.CourseName, COUNT(*) AS KayitSayisi
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Courses AS crs ON enr.CourseID = crs.CourseID
+GROUP BY crs.CourseName
 ORDER BY COUNT(*) DESC;
 GO
 
--- En düşük 3 notu göster (Enrollments bazında)
-SELECT TOP 3 s.FirstName, s.LastName, e.Score
-FROM dbo.Enrollments e
-INNER JOIN dbo.Students s ON e.StudentID = s.StudentID
-ORDER BY e.Score ASC;
+-- ==================================================
+-- Açıklama (14): En düşük 3 not (JOIN ile öğrenci bilgisi dahil)
+-- - En düşük puanlar için ORDER BY Score ASC.
+-- ==================================================
+SELECT TOP 3 stu.FirstName, stu.LastName, enr.Score
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Students AS stu ON enr.StudentID = stu.StudentID
+ORDER BY enr.Score ASC;
 GO
 
-
--- Sınav notu 70'den küçük olan öğrencilerin farklı isimlerini getir
-SELECT DISTINCT s.FirstName, s.LastName
-FROM dbo.Enrollments e
-INNER JOIN dbo.Students s ON e.StudentID = s.StudentID
-WHERE e.Score < 70;
+-- ==================================================
+-- Açıklama (15): DISTINCT ile tekrar etmeyen isim-soyisim (JOIN + filtre)
+-- - Amaç: Score < 70 olan kayıtların öğrencilerini tekilleştirerek listelemek.
+-- - Aynı öğrenci birden fazla sınavda <70 almış olabilir; DISTINCT tekrarları önler.
+-- ==================================================
+SELECT DISTINCT stu.FirstName, stu.LastName
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Students AS stu ON enr.StudentID = stu.StudentID
+WHERE enr.Score < 70;
 GO
 
--- TOP ile '2023G' dönemindeki en yüksek notu alan kayıt
-SELECT TOP 1 s.FirstName, s.LastName, c.CourseName, e.Score
-FROM dbo.Enrollments e
-INNER JOIN dbo.Students s ON e.StudentID = s.StudentID
-INNER JOIN dbo.Courses c ON e.CourseID = c.CourseID
-WHERE e.Semester = '2023G'
-ORDER BY e.Score DESC;
+-- ==================================================
+-- Açıklama (16): Belirli dönemde en yüksek notu alan kayıt
+-- - WHERE Semester='2023G': Sadece o dönem.
+-- - ORDER BY Score DESC + TOP 1: En yüksek skoru seç.
+-- - JOIN Courses: Ders adını göstermek için.
+-- ==================================================
+SELECT TOP 1 stu.FirstName, stu.LastName, crs.CourseName, enr.Score
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Students AS stu ON enr.StudentID = stu.StudentID
+INNER JOIN dbo.Courses  AS crs ON enr.CourseID = crs.CourseID
+WHERE enr.Semester = '2023G'
+ORDER BY enr.Score DESC;
 GO
 
 

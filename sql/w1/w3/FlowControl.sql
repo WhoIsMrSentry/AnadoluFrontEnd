@@ -1,60 +1,73 @@
 ﻿/*
 Akış Kontrolü
 */
+/*
+Akış Kontrolü - Açıklamalı örnekler
 
--- Bu derste öğreneceklerimiz (bu dosyadaki konular):
--- - Değişken: DECLARE, SET
--- - Koşullar: IF / ELSE IF / ELSE
--- - Koşullu çıktı: CASE
--- - Temp table: CREATE TABLE #..., INSERT, SELECT, DROP
--- - Operatör/fonksiyon: %, CONCAT
-
--- Bu dosya; T-SQL'de IF/ELSE ve CASE kullanımını hem değişkenlerle
--- hem de temp table (#) üzerinden örnekler.
+Bu dosya; IF, CASE ve geçici tablolar (#table) ile akış kontrolü örnekleri
+içerir. Her blok kısa bir açıklama ve değişkenlerin anlamı ile birlikte
+verilmiştir. Amacımız, kodu hiç bilmeyen birinin bile anlayabilmesini sağlamak.
+*/
 
 /***********************
- * Değişken İle Kullanım
+ * Basit IF örnekleri
  ***********************/
--- Pozitif / Negatif kontrolü
--- DECLARE: Değişken tanımlar ve başlangıç değeri atar.
--- IF/ELSE: Koşula göre tek satır veya blok çalıştırır.
-DECLARE @n INT = -5;
-IF @n > 0 PRINT 'Pozitif'; ELSE IF @n < 0 PRINT 'Negatif'; ELSE PRINT 'Sıfır';
+-- 1) Pozitif / Negatif kontrolü
+-- @number: kontrol edilecek tamsayı
+DECLARE @number INT = -5;
+IF @number > 0
+    PRINT 'Pozitif';
+ELSE IF @number < 0
+    PRINT 'Negatif';
+ELSE
+    PRINT 'Sıfır';
 
--- Çift / Tek kontrolü
--- %: Mod alma (kalan). Çift sayı -> @a % 2 = 0.
-DECLARE @a INT = 17;
-IF @a % 2 = 0 PRINT 'Çift'; ELSE PRINT 'Tek';
+-- 2) Çift / Tek kontrolü
+-- @value: örnek sayı, % operatörü ile mod (kalan) kontrolü yapılır
+DECLARE @value INT = 17;
+IF @value % 2 = 0
+    PRINT 'Çift';
+ELSE
+    PRINT 'Tek';
 
--- Not harfi hesaplama
--- CASE: Koşullu ifade; SELECT içinde kolon üretmek için kullanılır.
-DECLARE @Not INT = 82;
-SELECT CASE WHEN @Not >= 90 THEN 'AA'
-            WHEN @Not >= 80 THEN 'BA'
-            WHEN @Not >= 70 THEN 'BB'
-            WHEN @Not >= 60 THEN 'CB'
+-- 3) Not harfi hesaplama (CASE ile çoklu koşul)
+-- @score: öğrenci notu, CASE ile aralıklara bakılarak harf döndürülür
+DECLARE @score INT = 82;
+SELECT CASE WHEN @score >= 90 THEN 'AA'
+            WHEN @score >= 80 THEN 'BA'
+            WHEN @score >= 70 THEN 'BB'
+            WHEN @score >= 60 THEN 'CB'
             ELSE 'FF' END AS NotHarfi;
 
--- Vergi hesaplama
--- SET: Değişkene değer atar.
--- PRINT: Mesaj basar (SSMS Messages pane'inde görülür).
-DECLARE @Gelir DECIMAL(10,2) = 35000, @Vergi DECIMAL(10,2);
-IF @Gelir < 20000 SET @Vergi = @Gelir * 0.10;
-ELSE IF @Gelir < 50000 SET @Vergi = @Gelir * 0.20;
-ELSE SET @Vergi = @Gelir * 0.30;
-PRINT CONCAT('Vergi: ', @Vergi);
+-- 4) Vergi hesaplama (farklı gelir dilimleri için farklı oranlar)
+-- @income: yıllık gelir, @tax: hesaplanacak vergi
+DECLARE @income DECIMAL(10,2) = 35000;
+DECLARE @tax DECIMAL(10,2);
+IF @income < 20000
+    SET @tax = @income * 0.10; -- düşük gelir dilimi
+ELSE IF @income < 50000
+    SET @tax = @income * 0.20; -- orta gelir dilimi
+ELSE
+    SET @tax = @income * 0.30; -- yüksek gelir dilimi
+PRINT CONCAT('Vergi: ', @tax);
 
--- Faktöriyel sınırı kontrolü
-DECLARE @f INT = 12;
-IF @f < 0 PRINT 'Negatif'; 
-ELSE IF @f > 20 PRINT 'Taşabilir'; 
-ELSE PRINT 'Hesaplanabilir';
+-- 5) Faktöriyel sınırı kontrolü
+-- @factorialInput: faktöriyel hesaplanacak sayı; negatif ve çok büyük
+-- değerler için ön kontrol yapılır.
+DECLARE @factorialInput INT = 12;
+IF @factorialInput < 0
+    PRINT 'Negatif'; -- negatif sayının faktöriyeli tanımsız
+ELSE IF @factorialInput > 20
+    PRINT 'Taşabilir'; -- çok büyük değer taşma yapabilir
+ELSE
+    PRINT 'Hesaplanabilir';
+
 
 /***********************
- *Temp Table İle Kullanım
+ * Geçici (temp) tablolar ile CASE örnekleri
+ * Her blok: CREATE #Table -> INSERT örnek veriler -> SELECT ile CASE kullanımı -> DROP
  ***********************/
--- Temp table pozitif/negatif
--- # ile başlayan tablolar TEMP TABLE'dır: sadece bu oturumda geçerlidir.
+-- Temp table: pozitif/negatif örneği
 CREATE TABLE #Numbers (n INT);
 INSERT INTO #Numbers VALUES (-5),(10),(0),(22),(-9);
 SELECT n,
@@ -64,7 +77,7 @@ SELECT n,
 FROM #Numbers;
 DROP TABLE #Numbers;
 
--- Ürün fiyat vergisi
+-- Temp table: ürün fiyat vergisi kategorisi
 CREATE TABLE #Products (Product VARCHAR(50), Price DECIMAL(10,2));
 INSERT INTO #Products VALUES ('Kalem',12),('Tablet',3500),('Masa',500),('Kitap',50);
 SELECT Product, Price,
@@ -74,7 +87,7 @@ SELECT Product, Price,
 FROM #Products;
 DROP TABLE #Products;
 
--- Stok kontrolü
+-- Temp table: stok durumu kontrolü
 CREATE TABLE #Stock (Item VARCHAR(20), Quantity INT);
 INSERT INTO #Stock VALUES ('Kalem',10),('Defter',0),('Silgi',5);
 SELECT Item, Quantity,
@@ -84,7 +97,7 @@ SELECT Item, Quantity,
 FROM #Stock;
 DROP TABLE #Stock;
 
--- Not geçme/kalma
+-- Temp table: not geçme/kalma örneği
 CREATE TABLE #Grades (Student VARCHAR(20), Score INT);
 INSERT INTO #Grades VALUES ('Ali',85),('Ayşe',40),('Mehmet',72);
 SELECT Student, Score,
@@ -92,7 +105,7 @@ SELECT Student, Score,
 FROM #Grades;
 DROP TABLE #Grades;
 
--- İndirim uygulama
+-- Temp table: siparişlerde indirim uygulama örneği
 CREATE TABLE #Orders (Customer VARCHAR(20), Total DECIMAL(10,2));
 INSERT INTO #Orders VALUES ('Ali',120),('Ayşe',600),('Mehmet',50);
 SELECT Customer, Total,

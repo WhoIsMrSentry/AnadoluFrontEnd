@@ -85,9 +85,38 @@ CREATE TABLE dbo.Users (
 );
 GO
 
--- Addresses: Adres bilgileri
--- Hem kullanıcıya (UserID) hem tedarikçiye (SupplierID) bağlanabilir.
--- User/Supplier silinirse ilgili FK alanı NULL olur (ON DELETE SET NULL).
+/*
+Dokümantasyon: dbo.Addresses tablosu
+
+Amaç:
+- Kullanıcılar veya tedarikçilerle ilişkilendirilebilen posta/adres bilgilerini saklamak.
+
+Sütunlar:
+- AddressID INT IDENTITY(1,1) PRIMARY KEY
+    - Her adres için benzersiz kimlik (surrogate key).
+- UserID INT NULL
+    - dbo.Users(UserID) ile isteğe bağlı ilişki (nullable).
+- SupplierID INT NULL
+    - Tedarikçi ile ilişki amaçlı alan (DDL'de FK tanımı yok).
+- AddressLine1 NVARCHAR(255) NOT NULL
+    - Zorunlu birincil adres satırı.
+- AddressLine2 NVARCHAR(255) NULL
+    - Opsiyonel ek adres satırı (apartman, kat, vb.).
+- City NVARCHAR(100) NOT NULL
+    - Şehir (zorunlu).
+- State NVARCHAR(100) NULL
+    - Eyalet/il/ilçe (opsiyonel).
+- PostalCode NVARCHAR(20) NULL
+    - Posta kodu (opsiyonel).
+- Country NVARCHAR(100) NOT NULL
+    - Ülke (zorunlu).
+
+Kısıtlar ve davranış:
+- CONSTRAINT FK_Addresses_Users FOREIGN KEY (UserID) REFERENCES dbo.Users(UserID) ON DELETE SET NULL
+    - Referans verilen kullanıcı silindiğinde Addresses.UserID NULL yapılır; adres kaydı korunur.
+- SupplierID için ilişki açıkça tanımlanmamış; varsa dbo.Suppliers tablosuna FK eklenmesi önerilir.
+- UserID ve SupplierID nullable olduğu için bir adres hem kullanıcıya hem tedarikçiye bağlı olmayabilir veya paylaşılabilir.
+*/
 CREATE TABLE dbo.Addresses (
     AddressID INT IDENTITY(1,1) PRIMARY KEY,            -- Adres PK
     UserID INT NULL,                                    -- Adres bir kullanıcıya aitse dolu

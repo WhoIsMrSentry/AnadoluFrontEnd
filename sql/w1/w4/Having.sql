@@ -93,154 +93,211 @@ INSERT INTO dbo.Enrollments (StudentID, CourseID, Score, Semester) VALUES
 GO
 
 
--- Her ders için kaç kayıt olduğunu bul 
-SELECT c.CourseName, COUNT(*) AS KayitSayisi
-FROM dbo.Enrollments e
-INNER JOIN dbo.Courses c ON e.CourseID = c.CourseID
-GROUP BY c.CourseName;
+
+-- ==================================================
+-- Açıklama (1): Her ders için kaç kayıt (enrollment) var?
+-- - GROUP BY: Ders adına göre gruplar.
+-- - COUNT(*): Her grup içindeki satır sayısı.
+-- - INNER JOIN: Kayıtların ders adını (Courses) çekmek için.
+-- ==================================================
+SELECT crs.CourseName, COUNT(*) AS KayitSayisi
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Courses AS crs ON enr.CourseID = crs.CourseID
+GROUP BY crs.CourseName;
 GO
 
-
--- Her şehirde kaç öğrenci olduğunu bul
+-- ==================================================
+-- Açıklama (2): Her şehirde kaç öğrenci var?
+-- - Students tablosunu City alanına göre gruplarız.
+-- - COUNT(*): Her şehirdeki öğrenci sayısını verir.
+-- ==================================================
 SELECT City, COUNT(*) AS OgrenciSayisi
 FROM dbo.Students
 GROUP BY City;
 GO
 
--- Her derste ortalama notu bul
--- GROUP BY kuralı: SELECT'te agregat olmayan kolonlar GROUP BY'da olmalı.
-SELECT c.CourseName, AVG(e.Score) AS OrtalamaNot
-FROM dbo.Enrollments e
-INNER JOIN dbo.Courses c ON e.CourseID = c.CourseID
-GROUP BY c.CourseName;
+-- ==================================================
+-- Açıklama (3): Her derste ortalama sınav puanı
+-- - AVG(enr.Score): Her ders grubunun ortalaması.
+-- - GROUP BY kuralı: SELECT'te agregat olmayan sütun (CourseName) GROUP BY'da olmalı.
+-- ==================================================
+SELECT crs.CourseName, AVG(enr.Score) AS OrtalamaNot
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Courses AS crs ON enr.CourseID = crs.CourseID
+GROUP BY crs.CourseName;
 GO
 
--- HAVING ile ortalama notu 80 üzeri olan dersleri listele
--- HAVING: Gruplama sonrası filtrelemedir (WHERE ise gruplama öncesi satır filtreler).
-SELECT c.CourseName, AVG(e.Score) AS OrtalamaNot
-FROM dbo.Enrollments e
-INNER JOIN dbo.Courses c ON e.CourseID = c.CourseID
-GROUP BY c.CourseName
-HAVING AVG(e.Score) > 80;
+-- ==================================================
+-- Açıklama (4): HAVING ile grup filtreleme (ortalaması 80 üstü dersler)
+-- - WHERE: satırları gruplamadan önce filtreler.
+-- - HAVING: gruplama yapıldıktan sonra “grupları” filtreler.
+-- ==================================================
+SELECT crs.CourseName, AVG(enr.Score) AS OrtalamaNot
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Courses AS crs ON enr.CourseID = crs.CourseID
+GROUP BY crs.CourseName
+HAVING AVG(enr.Score) > 80;
 GO
 
--- Öğrenci bazında aldığı ders sayısı
--- LEFT JOIN: Kayıt (Enrollments) olmasa bile öğrenciyi listeler; COUNT NULL'ları saymaz.
-SELECT s.StudentID, s.FirstName, COUNT(e.EnrollmentID) AS DersSayisi
-FROM dbo.Students s
-LEFT JOIN dbo.Enrollments e ON s.StudentID = e.StudentID
-GROUP BY s.StudentID, s.FirstName;
+-- ==================================================
+-- Açıklama (5): Öğrenci bazında aldığı ders sayısı (LEFT JOIN)
+-- - LEFT JOIN: Enrollments kaydı olmasa bile öğrenciyi listeler.
+-- - COUNT(enr.EnrollmentID): NULL değerler sayılmadığı için, kaydı olmayan öğrencide 0 döner.
+-- ==================================================
+SELECT stu.StudentID, stu.FirstName, COUNT(enr.EnrollmentID) AS DersSayisi
+FROM dbo.Students AS stu
+LEFT JOIN dbo.Enrollments AS enr ON stu.StudentID = enr.StudentID
+GROUP BY stu.StudentID, stu.FirstName;
 GO
 
--- HAVING ile 2'den fazla ders alan öğrencileri bul
-SELECT s.StudentID, s.FirstName, COUNT(e.EnrollmentID) AS DersSayisi
-FROM dbo.Students s
-LEFT JOIN dbo.Enrollments e ON s.StudentID = e.StudentID
-GROUP BY s.StudentID, s.FirstName
-HAVING COUNT(e.EnrollmentID) >= 2;
+-- ==================================================
+-- Açıklama (6): HAVING ile en az 2 ders alan öğrencileri bulma
+-- - COUNT(enr.EnrollmentID) grup içinde ders/kayıt sayısıdır.
+-- ==================================================
+SELECT stu.StudentID, stu.FirstName, COUNT(enr.EnrollmentID) AS DersSayisi
+FROM dbo.Students AS stu
+LEFT JOIN dbo.Enrollments AS enr ON stu.StudentID = enr.StudentID
+GROUP BY stu.StudentID, stu.FirstName
+HAVING COUNT(enr.EnrollmentID) >= 2;
 GO
 
--- Şehirlere göre ortalama not
+-- ==================================================
+-- Açıklama (7): Şehirlere göre öğrencilerin ortalama genel notu (Grade)
+-- ==================================================
 SELECT City, AVG(Grade) AS Ortalama
 FROM dbo.Students
 GROUP BY City;
 GO
 
--- HAVING ile ortalama notu 75 üzeri olan şehirleri getir
+-- ==================================================
+-- Açıklama (8): HAVING ile ortalama notu 75 üstü şehirler
+-- ==================================================
 SELECT City, AVG(Grade) AS Ortalama
 FROM dbo.Students
 GROUP BY City
 HAVING AVG(Grade) > 75;
 GO
 
--- Dönemlere göre sınav sayısı
+-- ==================================================
+-- Açıklama (9): Dönemlere göre kaç sınav kaydı var?
+-- - Enrollments içinde her satır bir “ders kaydı / sınav puanı” gibi düşünülebilir.
+-- ==================================================
 SELECT Semester, COUNT(*) AS SinavSayisi
 FROM dbo.Enrollments
 GROUP BY Semester;
 GO
 
--- HAVING ile 10 veya daha fazla kayıt olan dönemler
+-- ==================================================
+-- Açıklama (10): HAVING ile 10 veya daha fazla kayıt olan dönemler
+-- ==================================================
 SELECT Semester, COUNT(*) AS SinavSayisi
 FROM dbo.Enrollments
 GROUP BY Semester
 HAVING COUNT(*) >= 10;
 GO
 
-
--- Ders kategorisine göre ortalama puan
-SELECT c.Category, AVG(e.Score) AS Ortalama
-FROM dbo.Enrollments e
-INNER JOIN dbo.Courses c ON e.CourseID = c.CourseID
-GROUP BY c.Category;
+-- ==================================================
+-- Açıklama (11): Ders kategorisine göre ortalama puan
+-- - Courses.Category ile gruplarız.
+-- ==================================================
+SELECT crs.Category, AVG(enr.Score) AS Ortalama
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Courses AS crs ON enr.CourseID = crs.CourseID
+GROUP BY crs.Category;
 GO
 
--- HAVING ile ortalama puanı 75 üzeri olan kategoriler
-SELECT c.Category, AVG(e.Score) AS Ortalama
-FROM dbo.Enrollments e
-INNER JOIN dbo.Courses c ON e.CourseID = c.CourseID
-GROUP BY c.Category
-HAVING AVG(e.Score) > 75;
+-- ==================================================
+-- Açıklama (12): HAVING ile ortalama puanı 75 üstü kategoriler
+-- ==================================================
+SELECT crs.Category, AVG(enr.Score) AS Ortalama
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Courses AS crs ON enr.CourseID = crs.CourseID
+GROUP BY crs.Category
+HAVING AVG(enr.Score) > 75;
 GO
 
-
--- Öğrencilerin en yüksek notu
-SELECT s.StudentID, s.FirstName, MAX(e.Score) AS EnYuksekNot
-FROM dbo.Students s
-LEFT JOIN dbo.Enrollments e ON s.StudentID = e.StudentID
-GROUP BY s.StudentID, s.FirstName;
+-- ==================================================
+-- Açıklama (13): Öğrencilerin en yüksek sınav notu (MAX)
+-- - LEFT JOIN: Öğrenciyi her durumda listeler.
+-- - MAX(enr.Score): Öğrencinin aldığı en yüksek Score.
+-- ==================================================
+SELECT stu.StudentID, stu.FirstName, MAX(enr.Score) AS EnYuksekNot
+FROM dbo.Students AS stu
+LEFT JOIN dbo.Enrollments AS enr ON stu.StudentID = enr.StudentID
+GROUP BY stu.StudentID, stu.FirstName;
 GO
 
--- HAVING ile en yüksek notu 90 ve üzeri olan öğrenciler
-SELECT s.StudentID, s.FirstName, MAX(e.Score) AS EnYuksekNot
-FROM dbo.Students s
-LEFT JOIN dbo.Enrollments e ON s.StudentID = e.StudentID
-GROUP BY s.StudentID, s.FirstName
-HAVING MAX(e.Score) >= 90;
+-- ==================================================
+-- Açıklama (14): HAVING ile en yüksek notu 90 ve üzeri olan öğrenciler
+-- - HAVING MAX(enr.Score) >= 90: Grup (öğrenci) bazında koşul.
+-- ==================================================
+SELECT stu.StudentID, stu.FirstName, MAX(enr.Score) AS EnYuksekNot
+FROM dbo.Students AS stu
+LEFT JOIN dbo.Enrollments AS enr ON stu.StudentID = enr.StudentID
+GROUP BY stu.StudentID, stu.FirstName
+HAVING MAX(enr.Score) >= 90;
 GO
 
--- Ders başına öğrenci sayısı
--- COUNT(DISTINCT ...): Tekrarsız öğrenci sayısını verir.
-SELECT c.CourseName, COUNT(DISTINCT e.StudentID) AS OgrenciSayisi
-FROM dbo.Courses c
-LEFT JOIN dbo.Enrollments e ON c.CourseID = e.CourseID
-GROUP BY c.CourseName;
+-- ==================================================
+-- Açıklama (15): Ders başına farklı öğrenci sayısı (COUNT DISTINCT)
+-- - COUNT(DISTINCT enr.StudentID): Aynı öğrenci bir derse birden fazla kayıt oluşturamaz gibi düşünsek de,
+--   veri tekrarına karşı tekilleştirerek sayar.
+-- - LEFT JOIN: Hiç seçilmeyen dersler de listede görünür (OgrenciSayisi 0 olur).
+-- ==================================================
+SELECT crs.CourseName, COUNT(DISTINCT enr.StudentID) AS OgrenciSayisi
+FROM dbo.Courses AS crs
+LEFT JOIN dbo.Enrollments AS enr ON crs.CourseID = enr.CourseID
+GROUP BY crs.CourseName;
 GO
 
--- HAVING ile en az 3 farklı öğrenciye sahip dersler
-SELECT c.CourseName, COUNT(DISTINCT e.StudentID) AS OgrenciSayisi
-FROM dbo.Courses c
-LEFT JOIN dbo.Enrollments e ON c.CourseID = e.CourseID
-GROUP BY c.CourseName
-HAVING COUNT(DISTINCT e.StudentID) >= 3;
+-- ==================================================
+-- Açıklama (16): HAVING ile en az 3 farklı öğrenciye sahip dersler
+-- ==================================================
+SELECT crs.CourseName, COUNT(DISTINCT enr.StudentID) AS OgrenciSayisi
+FROM dbo.Courses AS crs
+LEFT JOIN dbo.Enrollments AS enr ON crs.CourseID = enr.CourseID
+GROUP BY crs.CourseName
+HAVING COUNT(DISTINCT enr.StudentID) >= 3;
 GO
 
--- Şehir ve dönem bazında kayıt sayıları
-SELECT s.City, e.Semester, COUNT(*) AS KayitSayisi
-FROM dbo.Enrollments e
-INNER JOIN dbo.Students s ON e.StudentID = s.StudentID
-GROUP BY s.City, e.Semester;
+-- ==================================================
+-- Açıklama (17): Şehir + dönem bazında kayıt sayısı
+-- - İki alanla GROUP BY yapılabilir: City ve Semester birlikte grup anahtarı olur.
+-- ==================================================
+SELECT stu.City, enr.Semester, COUNT(*) AS KayitSayisi
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Students AS stu ON enr.StudentID = stu.StudentID
+GROUP BY stu.City, enr.Semester;
 GO
 
--- HAVING ile 2'den fazla kayıt olan şehir-dönem kombinasyonları
-SELECT s.City, e.Semester, COUNT(*) AS KayitSayisi
-FROM dbo.Enrollments e
-INNER JOIN dbo.Students s ON e.StudentID = s.StudentID
-GROUP BY s.City, e.Semester
+-- ==================================================
+-- Açıklama (18): HAVING ile 2'den fazla kayıt olan şehir-dönem kombinasyonları
+-- ==================================================
+SELECT stu.City, enr.Semester, COUNT(*) AS KayitSayisi
+FROM dbo.Enrollments AS enr
+INNER JOIN dbo.Students AS stu ON enr.StudentID = stu.StudentID
+GROUP BY stu.City, enr.Semester
 HAVING COUNT(*) > 2;
 GO
 
--- Öğrencilerin tüm notlarının ortalaması
-SELECT s.StudentID, s.FirstName, AVG(e.Score) AS OrtalamaNot
-FROM dbo.Students s
-LEFT JOIN dbo.Enrollments e ON s.StudentID = e.StudentID
-GROUP BY s.StudentID, s.FirstName;
+-- ==================================================
+-- Açıklama (19): Öğrencilerin tüm sınav notlarının ortalaması
+-- - AVG(enr.Score): Öğrencinin tüm kayıtlarındaki Score ortalaması.
+-- ==================================================
+SELECT stu.StudentID, stu.FirstName, AVG(enr.Score) AS OrtalamaNot
+FROM dbo.Students AS stu
+LEFT JOIN dbo.Enrollments AS enr ON stu.StudentID = enr.StudentID
+GROUP BY stu.StudentID, stu.FirstName;
 GO
 
--- HAVING ile ortalama notu 70-85 arasında olan öğrenciler
-SELECT s.StudentID, s.FirstName, AVG(e.Score) AS OrtalamaNot
-FROM dbo.Students s
-LEFT JOIN dbo.Enrollments e ON s.StudentID = e.StudentID
-GROUP BY s.StudentID, s.FirstName
-HAVING AVG(e.Score) BETWEEN 70 AND 85;
+-- ==================================================
+-- Açıklama (20): HAVING ile ortalama notu 70–85 arasında olan öğrenciler
+-- - BETWEEN: iki değer arasında (dahil).
+-- ==================================================
+SELECT stu.StudentID, stu.FirstName, AVG(enr.Score) AS OrtalamaNot
+FROM dbo.Students AS stu
+LEFT JOIN dbo.Enrollments AS enr ON stu.StudentID = enr.StudentID
+GROUP BY stu.StudentID, stu.FirstName
+HAVING AVG(enr.Score) BETWEEN 70 AND 85;
 GO
 
