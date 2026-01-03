@@ -10,6 +10,17 @@
 -- - Scripti parçalara ayırma: GO
 -- =============================================================
 
+-- =============================================================
+-- Ön koşul (çalıştırma sırası)
+-- 1) SP_Preps.sql    çalışmış olmalı (tablolar + örnek veri)
+-- 2) SP_Examples.sql çalışmış olmalı (procedure'lar oluşmuş olmalı)
+--
+-- Not:
+-- - Bu dosyada bazı EXEC'ler veri değiştirir (INSERT/UPDATE/DELETE).
+-- - Scripti blok blok çalıştırmak daha güvenlidir.
+-- - Aynı INSERT'i ikinci kez çalıştırırsan PK/FK hatası alabilirsin.
+-- =============================================================
+
 ------------------------------------------------------------
 -- 1) sp_ListStudents
 -- Amaç: Sistemdeki tüm öğrencileri listeler
@@ -69,6 +80,8 @@ GO
 -- 7) sp_AddStudent
 -- Amaç: Yeni öğrenci ekler
 ------------------------------------------------------------
+-- Dikkat:
+-- - @StudentID zaten varsa PRIMARY KEY hatası verir.
 EXEC sp_AddStudent
     @StudentID = 20,
     @FirstName = 'Ahmet',
@@ -82,6 +95,8 @@ GO
 -- 8) sp_UpdateStudentGrade
 -- Amaç: Öğrencinin genel notunu günceller
 ------------------------------------------------------------
+-- Dikkat:
+-- - WHERE içinde StudentID eşleşmezse 0 satır güncellenir.
 EXEC sp_UpdateStudentGrade @StudentID = 1, @Grade = 90;
 EXEC sp_UpdateStudentGrade @StudentID = 7, @Grade = 65;
 GO
@@ -91,6 +106,9 @@ GO
 -- 9) sp_DeleteStudent
 -- Amaç: Öğrenciyi ve kayıtlarını sistemden siler
 ------------------------------------------------------------
+-- Dikkat:
+-- - Bu işlem geri alınamaz (transaction yoksa).
+-- - SP içinde önce Enrollments silinir (FK yüzünden).
 EXEC sp_DeleteStudent @StudentID = 20;
 GO
 
@@ -99,6 +117,8 @@ GO
 -- 10) sp_AddCourse
 -- Amaç: Yeni ders ekler
 ------------------------------------------------------------
+-- Dikkat:
+-- - @CourseID zaten varsa PRIMARY KEY hatası verir.
 EXEC sp_AddCourse
     @CourseID   = 10,
     @CourseName = 'Veri Madenciliği',
@@ -111,6 +131,8 @@ GO
 -- 11) sp_EnrollStudentToCourse
 -- Amaç: Öğrenciyi derse kaydeder
 ------------------------------------------------------------
+-- Dikkat:
+-- - CourseID=10 ve StudentID=1 tabloda yoksa FK hatası alırsın.
 EXEC sp_EnrollStudentToCourse
     @StudentID = 1,
     @CourseID = 10,
@@ -143,6 +165,8 @@ GO
 -- 14) sp_CheckStudentStatus
 -- Amaç: Öğrencinin başarılı / başarısız durumunu yazdırır
 ------------------------------------------------------------
+-- Not:
+-- - Bu SP PRINT basar; sonuç tablo (SELECT) dönmeyebilir.
 EXEC sp_CheckStudentStatus @StudentID = 1;
 EXEC sp_CheckStudentStatus @StudentID = 7;
 GO

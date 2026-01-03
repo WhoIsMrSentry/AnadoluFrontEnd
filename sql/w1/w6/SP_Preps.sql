@@ -7,13 +7,29 @@
 -- SP HAZIRLIK (ÖRNEK TABLOLAR)
 -- Bu dosya; SP_Examples.sql ve SP_Executions.sql içinde kullanılan
 -- Students / Courses / Enrollments tablolarını ve örnek verileri hazırlar.
+--
+-- Önerilen çalışma sırası:
+-- 1) Bu dosya (SP_Preps.sql)       -> tablolar + örnek veri
+-- 2) SP_Examples.sql               -> stored procedure'ları oluştur/güncelle
+-- 3) SP_Executions.sql             -> EXEC ile çağır ve test et
 -- =============================================================
 
+-- =============================================================
+-- (1) Temizlik (DROP)
+-- - Scripti tekrar tekrar çalıştırabilmek için varsa tabloları siler.
+-- - FK (yabancı anahtar) nedeniyle silme sırası önemlidir:
+--   önce Enrollments (child), sonra Students/Courses (parent).
+-- =============================================================
 IF OBJECT_ID('dbo.Enrollments','U') IS NOT NULL DROP TABLE dbo.Enrollments;
 IF OBJECT_ID('dbo.Students','U')    IS NOT NULL DROP TABLE dbo.Students;
 IF OBJECT_ID('dbo.Courses','U')     IS NOT NULL DROP TABLE dbo.Courses;
 GO
 
+-- =============================================================
+-- (2) Students tablosu
+-- - PRIMARY KEY: StudentID benzersiz olmalı.
+-- - City/BirthYear/Grade NULL olabilir: "bilinmiyor" senaryosu.
+-- =============================================================
 CREATE TABLE dbo.Students (
     StudentID  INT         NOT NULL PRIMARY KEY,
     FirstName  NVARCHAR(30) NOT NULL,
@@ -24,6 +40,11 @@ CREATE TABLE dbo.Students (
 );
 GO
 
+-- =============================================================
+-- (3) Courses tablosu
+-- - PRIMARY KEY: CourseID benzersiz olmalı.
+-- - Category: ör. Sayısal/Teknik/Sözel.
+-- =============================================================
 CREATE TABLE dbo.Courses (
     CourseID    INT           NOT NULL PRIMARY KEY,
     CourseName  NVARCHAR(100) NOT NULL,
@@ -32,6 +53,12 @@ CREATE TABLE dbo.Courses (
 );
 GO
 
+-- =============================================================
+-- (4) Enrollments tablosu
+-- - "Hangi öğrenci hangi dersi hangi dönemde aldı, kaç puan aldı?" bilgisi.
+-- - EnrollmentID IDENTITY: otomatik artan kayıt numarası.
+-- - StudentID/CourseID: FK ile Students/Courses'a bağlanır.
+-- =============================================================
 CREATE TABLE dbo.Enrollments (
     EnrollmentID INT IDENTITY(1,1) PRIMARY KEY,
     StudentID    INT NOT NULL,
@@ -44,6 +71,14 @@ CREATE TABLE dbo.Enrollments (
 GO
 
 /* ---------- Örnek Veri Ekleme ---------- */
+
+-- =============================================================
+-- (5) Örnek veri ekleme (INSERT)
+-- - FK yüzünden ekleme sırası önemlidir:
+--   1) Students
+--   2) Courses
+--   3) Enrollments (çünkü ikisine de bağlı)
+-- =============================================================
 
 INSERT INTO dbo.Students (StudentID, FirstName, LastName, City, BirthYear, Grade) VALUES
 (1,'Ali','Yılmaz','İstanbul',2002,85),

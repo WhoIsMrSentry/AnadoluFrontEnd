@@ -2,6 +2,7 @@
 -- STORED PROCEDURE ÖRNEKLERİ
 -- CREATE OR ALTER: Procedure varsa günceller, yoksa oluşturur.
 -- Not: Bu dosya Students/Courses/Enrollments tablolarının var olduğunu varsayar.
+--      (Önce SP_Preps.sql çalışmalı.)
 --
 -- Bu derste öğreneceklerimiz (bu dosyadaki konular):
 -- - SP yazımı: CREATE OR ALTER PROCEDURE, parametre kullanımı
@@ -13,8 +14,17 @@
 -- - Temp table: #Temp ile raporlama
 -- =============================================================
 
+-- =============================================================
+-- Notlar (kısa özet)
+-- - Procedure (SP): Tek komutla tekrar tekrar çalıştırılabilen kayıtlı sorgu/işlem bloğu.
+-- - Parametre: Dışarıdan değer alıp sorguyu dinamik yapar (örn: @StudentID).
+-- - CREATE OR ALTER: Scripti tekrar çalıştırınca hata vermez; günceller.
+-- - GO: batch ayırır; SQL Server'a "bu blok bitti" demek gibi.
+-- =============================================================
+
 /* 1. Tüm öğrencileri listele */
 -- Parametresiz SP: sadece SELECT çalıştırır.
+-- Kategori: Listeleme (READ)
 CREATE OR ALTER PROCEDURE sp_ListStudents
 AS
 BEGIN
@@ -24,6 +34,7 @@ GO
 
 /* 2. ID ile öğrenci getir */
 -- Parametreli SP: @StudentID dışarıdan alınır.
+-- Kategori: Listeleme (READ) + filtre
 CREATE OR ALTER PROCEDURE sp_GetStudentById
     @StudentID INT
 AS
@@ -34,6 +45,11 @@ GO
 
 
 /* 3. Belirli bir dersi alan öğrencileri getir  */
+-- Kategori: Raporlama (JOIN)
+-- Neden JOIN?
+-- - Enrollments: öğrenci-ders ilişkisinin tutulduğu yer
+-- - Courses: ders adını buradan alırız
+-- - Students: öğrenci bilgisi buradan gelir
 CREATE OR ALTER PROCEDURE sp_GetStudentsByCourseName
     @CourseName NVARCHAR(100)
 AS
@@ -47,6 +63,7 @@ END
 GO
 
 /* 4. Şehre göre öğrenci listele */
+-- Kategori: Listeleme (READ) + filtre
 CREATE OR ALTER PROCEDURE sp_GetStudentsByCity
     @City NVARCHAR(50)
 AS
@@ -56,6 +73,9 @@ END
 GO
 
 /* 5. Öğrencinin aldığı dersleri getir */
+-- Kategori: Raporlama (JOIN)
+-- Neden FROM Enrollments?
+-- - Score ve Semester burada tutulur.
 CREATE OR ALTER PROCEDURE sp_GetStudentCourses
     @StudentID INT
 AS
@@ -69,6 +89,7 @@ GO
 
 /* 6. Bir dersin ortalama notunu hesapla */
 -- AVG(): Numeric ortalama alır.
+-- Kategori: Agregat (AVG)
 CREATE OR ALTER PROCEDURE sp_GetCourseAverageScore
     @CourseID INT
 AS
@@ -80,6 +101,8 @@ END
 GO
 
 /* 7. Yeni öğrenci ekle */
+-- Kategori: CRUD (CREATE)
+-- Not: StudentID bu tabloda IDENTITY olmadığı için dışarıdan veriyoruz.
 CREATE OR ALTER PROCEDURE sp_AddStudent
     @StudentID INT,
     @FirstName NVARCHAR(30),
@@ -94,6 +117,7 @@ END
 GO
 
 /* 8. Öğrencinin genel notunu güncelle */
+-- Kategori: CRUD (UPDATE)
 CREATE OR ALTER PROCEDURE sp_UpdateStudentGrade
     @StudentID INT,
     @Grade INT
@@ -106,6 +130,10 @@ END
 GO
 
 /* 9. Öğrenciyi sistemden sil */
+-- Kategori: CRUD (DELETE)
+-- FK (yabancı anahtar) nedeniyle silme sırası:
+-- 1) Enrollments (child)
+-- 2) Students (parent)
 CREATE OR ALTER PROCEDURE sp_DeleteStudent
     @StudentID INT
 AS
@@ -116,6 +144,7 @@ END
 GO
 
 /* 10. Yeni ders ekle */
+-- Kategori: CRUD (CREATE)
 CREATE OR ALTER PROCEDURE sp_AddCourse
     @CourseID INT,
     @CourseName NVARCHAR(100),
@@ -128,6 +157,8 @@ END
 GO
 
 /* 11. Öğrenciyi derse kaydet */
+-- Kategori: CRUD (CREATE)
+-- Not: StudentID ve CourseID FK olduğu için ikisi de ilgili tablolarda var olmalı.
 CREATE OR ALTER PROCEDURE sp_EnrollStudentToCourse
     @StudentID INT,
     @CourseID INT,
@@ -141,6 +172,7 @@ END
 GO
 
 /* 12. Öğrencinin dersteki notunu güncelle */
+-- Kategori: CRUD (UPDATE)
 CREATE OR ALTER PROCEDURE sp_UpdateEnrollmentScore
     @StudentID INT,
     @CourseID INT,
@@ -154,6 +186,7 @@ END
 GO
 
 /* 13. Öğrencinin ortalama ders notunu hesapla */
+-- Kategori: Agregat (AVG)
 CREATE OR ALTER PROCEDURE sp_GetStudentAverageScore
     @StudentID INT
 AS
@@ -166,6 +199,7 @@ GO
 
 /* 14. Öğrencinin başarı durumunu yazdır */
 -- PRINT: Sonucu mesaj olarak basar (result set döndürmez).
+-- Kategori: Akış kontrol (IF/ELSE)
 CREATE OR ALTER PROCEDURE sp_CheckStudentStatus
     @StudentID INT
 AS
@@ -182,6 +216,7 @@ GO
 
 /* 15. En başarılı öğrenciyi getir */
 -- TOP 1 + ORDER BY: En yüksek ortalamayı alanı seçer.
+-- Kategori: Raporlama (JOIN + GROUP BY + TOP)
 CREATE OR ALTER PROCEDURE sp_GetTopStudent
 AS
 BEGIN
@@ -194,6 +229,7 @@ END
 GO
 
 /* 16. Ders bazında öğrenci sayıları */
+-- Kategori: Agregat (COUNT + GROUP BY)
 CREATE OR ALTER PROCEDURE sp_CourseStudentCounts
 AS
 BEGIN
@@ -206,6 +242,8 @@ GO
 
 
 /* 17. Girilen iki sayının ortalamasını hesapla  */
+-- Kategori: Hesaplama (tablosuz)
+-- Not: / 2.0 -> ondalıklı sonuç için (integer bölme olmasın)
 CREATE OR ALTER PROCEDURE sp_CalculateAverage
     @A INT,
     @B INT
@@ -216,6 +254,8 @@ END
 GO
 
 /* 18. Asal sayı kontrolü  */
+-- Kategori: Akış kontrol (WHILE)
+-- Mantık: 2'den başlayıp SQRT(@N)'e kadar bölen var mı bakar.
 CREATE OR ALTER PROCEDURE sp_IsPrime
     @N INT
 AS
@@ -236,6 +276,7 @@ GO
 
 /* 19. Temp table kullanarak öğrencilerin not durumunu raporla */
 -- #Temp: Geçici tablo; procedure bitince otomatik temizlenir (scope'a bağlı).
+-- Kategori: Raporlama (#Temp)
 CREATE OR ALTER PROCEDURE sp_ReportStudentScores
 AS
 BEGIN
@@ -258,6 +299,7 @@ END
 GO
 
 /* 20) Genel notu verilen değerin üzerinde olan öğrencileri listeler.*/
+-- Kategori: Listeleme (READ) + filtre
 CREATE OR ALTER PROCEDURE sp_GetStudentsAboveGrade
     @MinGrade INT
 AS
@@ -269,6 +311,7 @@ END
 GO
 
 /* 21) Parametre olarak verilen dersin, o derste alınan en yüksek notunu getirir.*/
+-- Kategori: Agregat (MAX)
 CREATE OR ALTER PROCEDURE sp_GetMaxScoreByCourse
     @CourseID INT
 AS
@@ -280,6 +323,9 @@ END
 GO
 
 /* 22) Bir öğrencinin kayıtlı olduğu derslerin kredi toplamını hesaplar.*/
+-- Kategori: Agregat (SUM) + JOIN
+-- Neden JOIN?
+-- - Credit bilgisi Courses tablosunda.
 CREATE OR ALTER PROCEDURE sp_GetStudentTotalCredit
     @StudentID INT
 AS
@@ -292,6 +338,8 @@ END
 GO
 
 /* 23) Parametre olarak verilen dönemde açılan (kayıt yapılan) dersleri listeler.*/
+-- Kategori: Raporlama (JOIN) + DISTINCT
+-- DISTINCT: Aynı ders birden fazla öğrenciyle tekrar etmesin.
 CREATE OR ALTER PROCEDURE sp_GetCoursesBySemester
     @Semester NVARCHAR(10)
 AS
@@ -305,6 +353,7 @@ GO
 
 
 /* 24) Parametre olarak verilen doğum yılına göre yaş hesaplar.*/
+-- Kategori: Hesaplama (tablosuz)
 CREATE OR ALTER PROCEDURE sp_GetStudentAge
     @BirthYear INT
 AS
@@ -314,6 +363,8 @@ END
 GO
 
 /* 25) Belirlenen notun altında kalan öğrencileri listeler.*/
+-- Kategori: Raporlama (JOIN) + filtre
+-- DISTINCT: Aynı öğrenci farklı derslerde düşük aldıysa tekrar etmesin.
 CREATE OR ALTER PROCEDURE sp_GetLowScoreStudents
     @LimitScore INT
 AS
