@@ -94,8 +94,20 @@ INSERT INTO dbo.Enrollments (StudentID, CourseID, Score, Semester) VALUES
 GO
 
 
+
+-- ==================================================
+-- ALT SORGU (SUBQUERY) ÖZETİ
+-- - Alt sorgu: Parantez içindeki SELECT, dış sorgunun içinde kullanılır.
+-- - IN (subquery): Alt sorgudan dönen listeye göre filtreleme.
+-- - EXISTS / NOT EXISTS: "eşleşen satır var mı?" kontrolü.
+-- - Scalar subquery: Tek bir değer döndürür (AVG/MAX/SUM gibi) ve karşılaştırmada/kolonda kullanılabilir.
+-- - Correlated subquery: İç sorgu dış sorgudaki değere bağlı çalışır (ör: s.City).
+-- ==================================================
+
 -- Veritabanı dersini alan öğrencileri alt sorgu ile bul
 -- IN (subquery): Alt sorgudan dönen listedeki değerlere göre filtreler.
+-- Dış sorgu: Students (öğrenciler)
+-- İç sorgu: Enrollments'tan CourseID=1 olanların StudentID listesi
 SELECT *
 FROM dbo.Students
 WHERE StudentID IN (
@@ -105,6 +117,7 @@ GO
 
 -- Herhangi bir derse kayıtlı öğrencileri EXISTS ile çek
 -- EXISTS: Alt sorgu en az bir satır döndürüyorsa TRUE olur.
+-- Burada iç sorgu "bu öğrenciye ait enrollment var mı?" diye bakar.
 SELECT s.*
 FROM dbo.Students s
 WHERE EXISTS (
@@ -113,6 +126,7 @@ WHERE EXISTS (
 GO
 
 -- Hiç derse kayıtlı olmayan öğrencileri NOT EXISTS ile çek
+-- EXISTS'in tersi: eşleşen satır yoksa TRUE.
 SELECT s.*
 FROM dbo.Students s
 WHERE NOT EXISTS (
@@ -121,6 +135,7 @@ WHERE NOT EXISTS (
 GO
 
 -- Ortalama notu tüm öğrencilerin ortalamasından yüksek olan öğrenciler
+-- Scalar subquery: (SELECT AVG(Grade) ...) tek bir sayı döndürür.
 SELECT s.*
 FROM dbo.Students s
 WHERE s.Grade > (
@@ -129,6 +144,7 @@ WHERE s.Grade > (
 GO
 
 -- En az bir derste 90 ve üzeri alan öğrenciler
+-- Enrollments'ta Score>=90 olan StudentID'leri listele, Students'ı o listeye göre filtrele.
 SELECT DISTINCT s.StudentID, s.FirstName, s.LastName
 FROM dbo.Students s
 WHERE s.StudentID IN (
@@ -137,6 +153,8 @@ WHERE s.StudentID IN (
 GO
 
 -- En çok kaydı olan derste okuyan öğrencileri bul (basit subquery)
+-- İç sorgu: Enrollments içinde en çok kayıt olan CourseID'yi bulur.
+-- Dış sorgu: O CourseID'ye ait enrollments kayıtlarından öğrencileri getirir.
 SELECT s.StudentID, s.FirstName, s.LastName
 FROM dbo.Students s
 INNER JOIN dbo.Enrollments e ON s.StudentID = e.StudentID
@@ -150,6 +168,7 @@ GO
 
 -- Notu, kendi şehir ortalamasının üstünde olan öğrenciler
 -- Correlated subquery: İç sorgu dış sorgudaki s.City değerine göre çalışır.
+-- Her öğrenci için "kendi şehrinin ortalamasını" hesaplar ve karşılaştırır.
 SELECT s.StudentID, s.FirstName, s.City, s.Grade
 FROM dbo.Students s
 WHERE s.Grade > (
@@ -158,6 +177,7 @@ WHERE s.Grade > (
 GO
 
 -- 'Sayısal' kategorisindeki dersleri alan öğrenciler
+-- EXISTS içinde JOIN kullanımı: öğrencinin aldığı derslerin kategorisine bakar.
 SELECT DISTINCT s.StudentID, s.FirstName, s.LastName
 FROM dbo.Students s
 WHERE EXISTS (
@@ -170,6 +190,8 @@ WHERE EXISTS (
 GO
 
 -- Veritabanı dersinde en yüksek notu öğrenciler
+-- İç sorgu: CourseID=1 için MAX(Score) (tek değer)
+-- Dış sorgu: CourseID=1 ve Score o max değere eşit olanları getirir.
 SELECT s.FirstName, s.LastName, e.Score
 FROM dbo.Students s
 JOIN dbo.Enrollments e ON s.StudentID = e.StudentID
@@ -180,6 +202,9 @@ WHERE e.CourseID = 1
 GO
 
 -- Ders adı 'Programlama 1' olan derse kayıtlı öğrenciler (subquery + string)
+-- İç içe alt sorgu:
+-- 1) Courses'tan "Programlama 1" dersinin CourseID'sini bul
+-- 2) Enrollments'ta o CourseID'ye kayıtlı StudentID'leri bul
 SELECT s.FirstName, s.LastName
 FROM dbo.Students s
 WHERE s.StudentID IN (
@@ -193,12 +218,14 @@ GO
 
 -- Her öğrencinin toplam notunu hesapla (subquery ile)
 -- Scalar subquery: Tek bir değer döndürüp kolon olarak kullanılabilir.
+-- Her öğrenci satırı için Enrollments'tan SUM(Score) hesaplar.
 SELECT s.StudentID, s.FirstName,
        (SELECT SUM(Score) FROM dbo.Enrollments e WHERE e.StudentID = s.StudentID) AS ToplamPuan
 FROM dbo.Students s;
 GO
 
 -- Alt sorgu ile hiçbir kaydı olmayan dersleri bul
+-- NOT EXISTS: ilgili dersin enrollments kaydı yoksa o ders listelenir.
 SELECT *
 FROM dbo.Courses c
 WHERE NOT EXISTS (
@@ -207,6 +234,8 @@ WHERE NOT EXISTS (
 GO
 
 -- Alt sorgu ile en fazla kredili dersi alan öğrenciler
+-- İç sorgu: Courses'ta MAX(Credit) değerini bulur.
+-- Sonra credit'i o max olana eşit olan derslerin CourseID'lerini seçer.
 SELECT DISTINCT s.StudentID, s.FirstName, s.LastName
 FROM dbo.Students s
 JOIN dbo.Enrollments e ON s.StudentID = e.StudentID
@@ -216,6 +245,8 @@ WHERE e.CourseID IN (
 GO
 
 -- Her dersteki ortalama notu, genel ortalamadan yüksek olan dersler
+-- İlk parantez: ders bazında ortalama
+-- İkinci parantez: tüm enrollments genel ortalaması
 SELECT CourseName
 FROM dbo.Courses c
 WHERE (
@@ -226,12 +257,14 @@ WHERE (
 GO
 
 -- Bir öğrencinin aldığı ders sayısını göster (alt sorgu scalar)
+-- COUNT(*) ile öğrenci bazında enrollment satır sayısı.
 SELECT s.StudentID, s.FirstName,
        (SELECT COUNT(*) FROM dbo.Enrollments e WHERE e.StudentID = s.StudentID) AS AldigiDersSayisi
 FROM dbo.Students s;
 GO
 
 -- '2023G' döneminde ders alan öğrenciler
+-- IN: 2023G döneminde geçen StudentID'leri listele.
 SELECT DISTINCT s.StudentID, s.FirstName, s.LastName
 FROM dbo.Students s
 WHERE s.StudentID IN (
@@ -240,6 +273,7 @@ WHERE s.StudentID IN (
 GO
 
 -- En az bir derste dönemi '2023B' olan öğrenciler
+-- EXISTS: bu öğrenci için 2023B kaydı var mı?
 SELECT DISTINCT s.StudentID, s.FirstName, s.LastName
 FROM dbo.Students s
 WHERE EXISTS (
@@ -248,6 +282,8 @@ WHERE EXISTS (
 GO
 
 -- Alt sorgu ile aldığı toplam kredi 10'dan fazla olan öğrenciler
+-- Correlated (dışa bağlı) alt sorgu:
+-- Her öğrenci için Enrollments + Courses join ile toplam krediyi hesaplar.
 SELECT s.StudentID, s.FirstName, s.LastName
 FROM dbo.Students s
 WHERE (
@@ -259,6 +295,9 @@ WHERE (
 GO
 
 -- Ders kaydı hiç olmayan şehirleri bul
+-- Dış sorgu Students'tan şehirleri gezer.
+-- NOT EXISTS ile "bu şehirdeki öğrencilerin hiç enrollment'ı yok mu?" kontrol edilir.
+-- Not: Bu örnek, şehir bazında "en az bir kayıt" mantığını göstermeye yöneliktir.
 SELECT DISTINCT City
 FROM dbo.Students s
 WHERE NOT EXISTS (

@@ -96,12 +96,23 @@ GO
 
 
 
+
+-- ==================================================
+-- (1) Sıralama (ORDER BY)
+-- - ORDER BY ... DESC: Z'den A'ya / büyükten küçüğe sıralar.
+-- - İki alanla sıralama yapılabilir: önce LastName, eşitse FirstName.
+-- ==================================================
 -- Öğrencilerin isimlerini ters sırada yaz
 SELECT FirstName, LastName
 FROM dbo.Students
 ORDER BY LastName DESC, FirstName DESC;
 GO
 
+-- ==================================================
+-- (2) Büyük/küçük harf dönüşümü: UPPER / LOWER
+-- - UPPER(text): metni büyük harfe çevirir.
+-- - LOWER(text): metni küçük harfe çevirir.
+-- ==================================================
 -- Öğrencilerin adlarını büyük harfe çevir
 -- UPPER/LOWER: Metni büyük/küçük harfe çevirir.
 SELECT UPPER(FirstName) AS BuyukAd, LastName
@@ -113,12 +124,20 @@ SELECT LOWER(CourseName) AS KucukDers
 FROM dbo.Courses;
 GO
 
+-- ==================================================
+-- (3) Metin birleştirme (concat)
+-- - SQL Server'da NVARCHAR alanlar + ile birleştirilebilir.
+-- - Araya boşluk koymak için ' ' ekleriz.
+-- ==================================================
 -- Ad ve soyadı birleştir 
 -- Metin birleştirme: NVARCHAR + NVARCHAR.
 SELECT FirstName + ' ' + LastName AS AdSoyad
 FROM dbo.Students;
 GO
 
+-- ==================================================
+-- (4) Soldan / sağdan parça alma: LEFT / RIGHT
+-- ==================================================
 -- Ders adlarının ilk 3 harfini al
 -- LEFT(text, n): soldan n karakter alır.
 SELECT CourseName, LEFT(CourseName,3) AS IlkUcHarf
@@ -130,17 +149,30 @@ SELECT FirstName, RIGHT(FirstName,2) AS SonIkiHarf
 FROM dbo.Students;
 GO
 
+-- ==================================================
+-- (5) Uzunluk: LEN
+-- ==================================================
 -- Öğrenci adlarının uzunluğunu göster
 -- LEN(text): karakter sayısı.
 SELECT FirstName, LEN(FirstName) AS Uzunluk
 FROM dbo.Students;
 GO
 
+-- ==================================================
+-- (6) Değiştirme: REPLACE
+-- - REPLACE(text, eski, yeni)
+-- ==================================================
 -- Ders adındaki boşlukları '-' ile değiştir
 SELECT CourseName, REPLACE(CourseName,' ','-') AS Degismis
 FROM dbo.Courses;
 GO
 
+-- ==================================================
+-- (7) Arama: LIKE / NOT LIKE
+-- - % : 0 veya daha fazla karakter
+-- - A% : A ile başlar
+-- - %li : li ile biter
+-- ==================================================
 -- 'Programlama' kelimesi geçen dersleri bul
 -- LIKE '%...%': içinde geçenleri bulur. % -> joker (0+ karakter).
 SELECT CourseName
@@ -178,18 +210,32 @@ FROM dbo.Courses
 WHERE CourseName LIKE '%a%' OR CourseName LIKE '%e%';
 GO
 
+-- ==================================================
+-- (8) SUBSTRING: ortadan parça alma
+-- - SUBSTRING(text, start, length)
+-- - start 1'den başlar.
+-- ==================================================
 -- Öğrencilerin isimlerinden 2. ve 3. karakterleri al
 -- SUBSTRING(text, start, length): 1'den başlayan index ile parça alır.
 SELECT FirstName, SUBSTRING(FirstName,2,2) AS IkinciUcuncu
 FROM dbo.Students;
 GO
 
+-- ==================================================
+-- (9) Bir metni biçimlendirme (karma kullanım)
+-- - City NULL olursa sonuç NULL olur (NULL + '...' = NULL).
+-- - İstenirse WHERE City IS NOT NULL eklenebilir veya ISNULL(City,'') kullanılabilir.
+-- ==================================================
 -- Şehir adlarını ilk iki harfi büyük geri kalanı küçük yap 
 SELECT City,
        UPPER(LEFT(City,2)) + LOWER(SUBSTRING(City,3,LEN(City)-2)) AS DuzenlenmisSehir
 FROM dbo.Students;
 GO
 
+-- ==================================================
+-- (10) Alt sorgu örneği (string + aggregate)
+-- - LEN(LastName) en büyük olanı bulup ona eşit olanları listeler.
+-- ==================================================
 -- Soyadı en uzun olan öğrencileri bul 
 SELECT FirstName, LastName
 FROM dbo.Students
@@ -206,6 +252,11 @@ FROM dbo.Courses
 WHERE CourseName LIKE 'Veritabanı%';
 GO
 
+-- ==================================================
+-- (11) Birleştir + uzunluğa göre sırala
+-- - LEN(FirstName + LastName): aradaki boşluğu saymak istemediğimiz için boşluksuz ölçüm.
+-- - ORDER BY Uzunluk DESC: uzun isimler üstte.
+-- ==================================================
 -- Ad-soyadı birleştirip uzunluğuna göre sırala
 SELECT FirstName + ' ' + LastName AS AdSoyad, LEN(FirstName + LastName) AS Uzunluk
 FROM dbo.Students

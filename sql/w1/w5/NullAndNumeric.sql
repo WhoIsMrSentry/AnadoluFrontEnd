@@ -92,6 +92,12 @@ INSERT INTO dbo.Enrollments (StudentID, CourseID, Score, Semester) VALUES
 (10,2,89,'2023G');
 GO
 
+-- ==================================================
+-- (1) NULL örnek verisi hazırlığı
+-- - City alanı NULL olabilen (nullable) bir alan.
+-- - Bazı satırlarda City'i NULL yaparak "şehir bilinmiyor" senaryosu üretiriz.
+-- - Önemli: NULL karşılaştırması = ile yapılmaz.
+-- ==================================================
 
 -- Bazı öğrenci şehirlerini NULL yap (örnek veri hazırlığı)
 -- NULL: "bilinmiyor/boş" anlamında özel bir değerdir.
@@ -102,24 +108,44 @@ WHERE StudentID IN (3,7);
 SELECT * FROM dbo.Students;
 GO
 
+-- ==================================================
+-- (2) NULL filtreleme
+-- - IS NULL: değeri NULL olanları bulur.
+-- - "City = NULL" yazarsan hiç eşleşmez.
+-- ==================================================
 -- IS NULL ile şehir bilgisi olmayan öğrenciler
 SELECT StudentID, FirstName, LastName
 FROM dbo.Students
 WHERE City IS NULL;
 GO
 
+-- ==================================================
+-- (3) NULL olmayanları filtreleme
+-- - IS NOT NULL: değeri dolu olanları bulur.
+-- ==================================================
 -- IS NOT NULL ile şehir bilgisi olan öğrenciler
 SELECT StudentID, FirstName, LastName, City
 FROM dbo.Students
 WHERE City IS NOT NULL;
 GO
 
+-- ==================================================
+-- (4) NULL'ı ekranda "yerine koyma" (display)
+-- - ISNULL(City, 'Bilinmiyor') sadece gösterimde kullanılır.
+-- - Veriyi değiştirmez; sadece SELECT sonucunu değiştirir.
+-- ==================================================
 -- ISNULL ile boş şehirleri 'Bilinmiyor' olarak göster
 -- ISNULL(expr, replacement): expr NULL ise replacement döndürür.
 SELECT FirstName, LastName, ISNULL(City,'Bilinmiyor') AS Sehir
 FROM dbo.Students;
 GO
 
+-- ==================================================
+-- (5) Sayısal ortalama + CAST + ROUND
+-- - AVG: ortalama alır.
+-- - CAST: sayıyı DECIMAL'e çevirip daha kontrollü yuvarlamayı sağlar.
+-- - LEFT JOIN: enrollments olmayan öğrenci de listelensin.
+-- ==================================================
 -- Not ortalamasını ROUND ile yuvarla
 -- AVG(): Ortalama.
 -- CAST: Tip dönüşümü; burada skorları DECIMAL'e çevirip daha kontrollü yuvarlama yapılır.
@@ -131,21 +157,37 @@ LEFT JOIN dbo.Enrollments e ON s.StudentID = e.StudentID
 GROUP BY s.StudentID, s.FirstName;
 GO
 
+-- ==================================================
+-- (6) ABS: mutlak değer
+-- - Negatif sayıyı pozitife çevirir.
+-- ==================================================
 -- ABS fonksiyonu: Örnek negatif/pozitif fark göstermelik
 SELECT ABS(-10) AS MutlakDeger;
 GO
 
+-- ==================================================
+-- (7) FLOOR / CEILING: aşağı / yukarı yuvarlama
+-- ==================================================
 -- FLOOR ve CEILING ile fiyat benzeri sayıları aşağı ve yukarı yuvarlama
 -- FLOOR: aşağı yuvarlar, CEILING: yukarı yuvarlar.
 SELECT 12.7 AS Sayi, FLOOR(12.7) AS Asagi, CEILING(12.7) AS Yukari;
 GO
 
+-- ==================================================
+-- (8) Ondalık bölme + ROUND
+-- - Grade/10.0: 10.0 yazınca sonuç ondalıklı olur (integer bölme olmaz).
+-- ==================================================
 -- Öğrencilerin notlarını 10'luk sisteme göre yuvarlama
 SELECT FirstName, LastName, Grade,
        ROUND(Grade/10.0, 0) AS OnlukSistem
 FROM dbo.Students;
 GO
 
+-- ==================================================
+-- (9) NOT BETWEEN
+-- - 60 ile 80 arasında OLMAYAN notlar.
+-- - BETWEEN iki uç değeri de dahil eder.
+-- ==================================================
 -- NOT BETWEEN ile 60-80 arası olmayan öğrenciler
 SELECT FirstName, LastName, Grade
 FROM dbo.Students
@@ -159,6 +201,10 @@ SELECT FirstName, LastName, (YEAR(GETDATE()) - BirthYear) AS Yas
 FROM dbo.Students;
 GO
 
+-- ==================================================
+-- (10) GROUP BY + AVG + ROUND
+-- - Kategorilere göre (Courses.Category) ortalama sınav skorları.
+-- ==================================================
 -- Her kategorideki derslerin ortalama skorunu bul ve yuvarla
 SELECT c.Category, ROUND(AVG(e.Score), 1) AS Ortalama
 FROM dbo.Enrollments e
@@ -189,10 +235,17 @@ FROM dbo.Students;
 GO
 
 
+-- ==================================================
+-- (11) ROUND örneği
+-- ==================================================
 -- ROUND ile 2 basamağa yuvarlama örneği
 SELECT ROUND(123.4567, 2) AS Yuvarlanmis;
 GO
 
+-- ==================================================
+-- (12) Ortalama + FLOOR/CEILING
+-- - AVG(Grade) ondalıklı çıkabilir; aşağı/yukarı yuvarlama örneği.
+-- ==================================================
 -- FLOOR/CEILING ile ortalama hesaplama
 SELECT AVG(Grade), FLOOR(AVG(Grade)) AS AsagiYuvarlanmis,
        CEILING(AVG(Grade)) AS YukariYuvarlanmis
